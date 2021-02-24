@@ -1,0 +1,77 @@
+.nav_safe_area {
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+    background-color: #03a9f4;
+}
+
+.main_color {
+    background-color: #03a9f4;
+}
+.no_shadow{
+    -webkit-box-shadow:none!important;
+    box-shadow:none!important;
+}
+
+html, body {
+    color:#03a9f4;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background: steelblue;
+    text-align: center;
+    z-index: 9; /** this value affects the overlapping **/
+
+}
+.footer_div_focus{
+
+    width: calc(100%/3);
+    display: inline-block;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #03a9f4;
+    color: white!important;
+    font-size: x-large;
+}
+.footer_div{
+
+    width: calc(100%/3);
+    display: inline-block;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #81d4fa;
+    color: white!important;
+    font-size: x-large;
+
+}
+.div_footer_options{
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+    background-color: #81d4fa;
+}
+.div_loading{
+    display: inline-block;
+    width: 80%;
+    position: absolute;
+    left: 10%;
+    top: 28%;
+    z-index: 11;
+    text-align: left;
+}
+.div_opacity{
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 10;"
+}
