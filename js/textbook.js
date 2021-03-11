@@ -11,49 +11,66 @@ for (var i in splitUrlKeyValue) {
 $(document).ready(function () {
     $('#div_textbookName').text(decodeURIComponent(thisTextbook.textbookName))
 
-    getTextbookInfo()
+    var textbookContent = JSON.parse(localStorage.getItem('textbookContent'))
+    if(textbookContent == null){
+        swal.fire('請更新資料')
+    }else{
+        var filterTextbookContent = textbookContent.filter(function(item,index,array){
+            return item.TextbookId == thisTextbook.textbookId
+        })
+        var filterTextbookContentChapter = JSON.parse(localStorage.getItem('textbookContentChapter')).filter(function(item,index,array){
+            for(let i in filterTextbookContent){
+                if(filterTextbookContent[i].TextbookContentId == item.TextbookContentId){
+                    return item
+                }
+            }
+        })
+
+        showDivTextbookInfos(filterTextbookContentChapter)
+    }
+
 
 })
 
 
 
-var getTextbookInfo = function (){
-    console.log('[AJAX] getTextbookInfo')
-    let postData = {}
-    postData.textbookId = thisTextbook.textbookId
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": baseUrl + "app/getTextbookInfo",
-        "method": "POST",
-        "headers": {
-            "content-type": "application/json",
-            "cache-control": "no-cache",
-        },
-        data: JSON.stringify(postData)
-    }
-
-    $.ajax(settings).done(function (response) {
-        console.log(response)
-        var code = response.code
-        if (code != 200) {
-            swal.fire('伺服器維修中')
-        } else if (code == 200) {
-            let data = response.data
-
-            showDivTextbookInfos(data)
-
-        }
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('[FAIL] ')
-        // swal.fire('沒有網路連線')
-        console.log(jqXHR)
-        console.log(textStatus)
-        console.log(errorThrown)
-        divShowClassList()
-
-    });
-}
+// var getTextbookInfo = function (){
+//     console.log('[AJAX] getTextbookInfo')
+//     let postData = {}
+//     postData.textbookId = thisTextbook.textbookId
+//     var settings = {
+//         "async": true,
+//         "crossDomain": true,
+//         "url": baseUrl + "app/getTextbookInfo",
+//         "method": "POST",
+//         "headers": {
+//             "content-type": "application/json",
+//             "cache-control": "no-cache",
+//         },
+//         data: JSON.stringify(postData)
+//     }
+//
+//     $.ajax(settings).done(function (response) {
+//         console.log(response)
+//         var code = response.code
+//         if (code != 200) {
+//             swal.fire('伺服器維修中')
+//         } else if (code == 200) {
+//             let data = response.data
+//
+//             showDivTextbookInfos(data)
+//
+//         }
+//     }).fail(function (jqXHR, textStatus, errorThrown) {
+//         console.log('[FAIL] ')
+//         // swal.fire('沒有網路連線')
+//         console.log(jqXHR)
+//         console.log(textStatus)
+//         console.log(errorThrown)
+//         divShowClassList()
+//
+//     });
+// }
 
 
 var showDivTextbookInfos = function (data){
@@ -81,7 +98,7 @@ var showDivTextbookInfos = function (data){
 
         for(var j of temp[i]){
             console.log(j)
-            appendHTML += `<a href="chapter.html?chapterId=${j.TextbookContentChapterId}" 
+            appendHTML += `<a href="chapter.html?chapterId=${j.TextbookContentChapterId}&chapterName=${j.TextbookContentChapterName}" 
                         class="btn no_shadow a_for_chapter" style="">
                     ${j.TextbookContentChapterName}
                     </a>`

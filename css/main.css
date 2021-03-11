@@ -1,11 +1,13 @@
 .nav_safe_area {
     padding-top: constant(safe-area-inset-top);
     padding-top: env(safe-area-inset-top);
-    background-color: #03a9f4;
+    background-color: #7FA8E6;
 }
-
+.swal2-confirm{
+    background-color: #7FA8E6!important;
+}
 .main_color {
-    background-color: #03a9f4;
+    background-color: #7FA8E6;
 }
 .no_shadow{
     -webkit-box-shadow:none!important;
@@ -13,10 +15,32 @@
 }
 
 html, body {
-    color:#03a9f4;
+    /*color:#03a9f4;*/
 
     width: 100vw;
-    height: 100vh;
+    height:100%;
+    overflow-y: auto;
+
+}
+nav{
+    height:68px
+}
+.nav-wrapper{
+    padding-top: 10px;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-size: small;
+    color: #A4C1ED;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #A4C1ED;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #A4C1ED;
 }
 
 footer {
@@ -24,20 +48,20 @@ footer {
     width: 100%;
     bottom: 0;
     left: 0;
-    background: steelblue;
+    background: white;
     text-align: center;
     z-index: 9; /** this value affects the overlapping **/
 
 }
 .footer_div_focus{
-
+    border-top: 4px solid #7FA8E6;
     width: calc(100%/3);
     display: inline-block;
     text-align: center;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background-color: #03a9f4;
-    color: white!important;
+    padding-top: 12px;
+    padding-bottom: 8px;
+    /*background-color: #03a9f4;*/
+    color:#7FA8E6;
     font-size: x-large;
 }
 .footer_div{
@@ -45,17 +69,17 @@ footer {
     width: calc(100%/3);
     display: inline-block;
     text-align: center;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background-color: #81d4fa;
-    color: white!important;
+    padding-top: 12px;
+    padding-bottom: 8px;
+    /*background-color: #81d4fa;*/
+    color:#7FA8E6;
     font-size: x-large;
 
 }
 .div_footer_options{
     padding-bottom: constant(safe-area-inset-bottom);
     padding-bottom: env(safe-area-inset-bottom);
-    background-color: #81d4fa;
+    /*background-color: #81d4fa;*/
 }
 .div_loading{
     display: inline-block;
@@ -67,11 +91,12 @@ footer {
     text-align: left;
 }
 .div_opacity{
-    background-color: rgba(0, 0, 0, 0.4);
+    background: #E3EEFF 0% 0% no-repeat padding-box;
+    opacity: 0.8;
     position: fixed;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 10;"
+    z-index: 10;
 }

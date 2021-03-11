@@ -5,19 +5,21 @@ var div_opacity = function () {
     padding-top: 65px;
     padding-bottom: 65px;
     text-align: center;
-    font-size: large;
-    font-weight: bold;border-radius:10px;">
+    border-radius: 15px;
+    color: #7fa8e6;
+    box-shadow: 0px 30px 30px #0000001A;
+    ">
 
                 <span style="font-size: x-large;" >
             是否要登出?</span>
             </div>
-                    <div class="row">
+                    <div class="row" style="margin-top: 30px;">
                     <div class="col s1"></div>
-                    <div class="col s4" style="text-align: center;padding:15px;background-color: #03a9f4;border-radius:10px;" onclick="javascript:btn_logout()">
+                    <div class="col s4" style="text-align: center;padding:13px;background-color: #7FA8E6;border-radius:4px;" onclick="javascript:btn_logout()">
                         <a style="color: white;">確認</a>
                     </div>
                     <div class="col s2"></div>
-                    <div class="col s4" style="text-align: center;padding:15px; background-color:#03a9f4; border-radius:10px;" onclick="javascript:remove_div_opacity()">
+                    <div class="col s4" style="text-align: center;padding:13px; background-color:#9FC5FF; border-radius:4px;" onclick="javascript:remove_div_opacity()">
                         <a style="color: white;">返回</a>
                     </div>
                     <div class="col s1"></div>

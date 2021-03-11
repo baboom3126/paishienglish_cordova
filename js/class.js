@@ -7,52 +7,29 @@ for (var i in splitUrlKeyValue) {
 }
 
 
-
 $(document).ready(function () {
     $('#div_className').text(decodeURIComponent(thisClass.className))
 
-    getTextbookByClassId()
+    var classTextbook = JSON.parse(localStorage.getItem('classTextbook'))
+    if (classTextbook == null) {
+        swal.fire('請更新資料')
+    } else {
+        var filterClassTextbook = classTextbook.filter(function(item, index, array){
+            return item.ClassId == thisClass.classId
+        })
+        var filterTextbook = JSON.parse(localStorage.getItem('textbook')).filter(function(item,index,array){
+            for(let i in filterClassTextbook){
+                if(filterClassTextbook[i].TextbookId == item.TextbookId){
+                    return item
+                }
+            }
+        })
 
-})
+        showDivChapterList(filterTextbook)
 
-var getTextbookByClassId = function () {
-    console.log('[AJAX] getAllClassByStudentId')
-    let postData = {}
-    postData.classId = thisClass.classId
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": baseUrl + "app/getTextbookByClassId",
-        "method": "POST",
-        "headers": {
-            "content-type": "application/json",
-            "cache-control": "no-cache",
-        },
-        data: JSON.stringify(postData)
+
     }
-
-    $.ajax(settings).done(function (response) {
-        console.log(response)
-        var code = response.code
-        if (code != 200) {
-            swal.fire('伺服器維修中')
-        } else if (code == 200) {
-            let data = response.data
-
-            showDivChapterList(data)
-
-        }
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('[FAIL] ')
-        // swal.fire('沒有網路連線')
-        console.log(jqXHR)
-        console.log(textStatus)
-        console.log(errorThrown)
-        divShowClassList()
-
-    });
-
-}
+})
 
 
 var showDivChapterList = function (data) {
@@ -61,11 +38,11 @@ var showDivChapterList = function (data) {
     for (let i in data) {
 
         appendHtml += `
-        <div class="row" style="margin-bottom: 0;">
-        <div class="col s2" style="padding-top: 20px;padding-bottom: 20px;text-align: center; font-size: large;font-weight: bold;">
+        <div class="row" style="margin-bottom: 0;border-bottom: 1px solid #e1f2ff;">
+        <div class="col s2" style="padding-top: 20px;padding-bottom: 20px;text-align: center; font-size: large;font-weight: bold;color: #7fa8e6;">
             >
         </div><a href="textbook.html?textbookId=${data[i].TextbookId}&textbookName=${data[i].TextbookName}">
-        <div class="col s10" style="padding-top: 20px;padding-bottom: 20px;border-bottom: 1px solid #03a9f4;word-break: break-all">
+        <div class="col s10" style="padding-top: 20px;padding-bottom: 20px;word-break: break-all;color: #7fa8e6;">
             ${data[i].TextbookName}
         </div></a>
     </div>

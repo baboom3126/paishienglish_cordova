@@ -1,24 +1,27 @@
 var studentId;
 
+
 $(document).ready(function () {
     let studentInfo = JSON.parse(localStorage.getItem("student"))
     studentId = studentInfo.studentId
-    $('#nav_student_name').text(studentInfo.name)
-
-    getAllClassByStudentId()
-
+    $('#nav_student_name').html('&nbsp&nbsp' + studentInfo.name)
+    if (localStorage.getItem('class') == null) {
+        downloadAllData()
+    }else{
+        index_show_class_list()
+    }
+    // downloadAllData()
 
 })
 
-
-var getAllClassByStudentId = function () {
-    console.log('[AJAX] getAllClassByStudentId')
+var downloadAllData = function () {
+    swal.showLoading()
     let postData = {}
     postData.studentId = studentId
     var settings = {
         "async": true,
         "crossDomain": true,
-        "url": baseUrl + "app/getAllClassByStudentId",
+        "url": baseUrl + "app/v2/downloadAllData",
         "method": "POST",
         "headers": {
             "content-type": "application/json",
@@ -33,12 +36,19 @@ var getAllClassByStudentId = function () {
         if (code != 200) {
             swal.fire('伺服器維修中')
         } else {
-            let data = response.data.queryClassBySid
 
-            localStorage.setItem('classList', JSON.stringify(data))
-            divShowClassList()
-
-
+            for (i of Object.keys(response.data)) {
+                localStorage.setItem(i, JSON.stringify(response.data[i]))
+            }
+            Swal.fire({
+                title: '資料下載完成',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: `確定`,
+                denyButtonText: `No`,
+            }).then((result) => {
+                location.reload()
+            })
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log('[FAIL] ')
@@ -46,60 +56,17 @@ var getAllClassByStudentId = function () {
         console.log(jqXHR)
         console.log(textStatus)
         console.log(errorThrown)
-        divShowClassList()
 
     });
 }
 
 
-var divShowClassList = function () {
-    console.log('[INFO] divShowClassList')
-    let data = JSON.parse(localStorage.getItem('classList'))
-    if (data != undefined) {
-        let appendHtml = ``
-        for (let i in data) {
-            appendHtml += `
-                <div class="col s6">
-            <div class="row">
-                <div class="col s12 m7">
-                    <a href="class.html?classId=${data[i].ClassId}&className=${encodeURIComponent(data[i].ClassName)}" class="card no_shadow" style="margin-bottom: 0px;">
-                        <div class="" style="width: 100%;padding-top: 30px;padding-bottom:60px;background-color: #03a9f4;">
-                        </div>
-                        <div class="" style="padding: 12px;background-color:#e1f5fe;">
-                            <div style="color:black;">${data[i].ClassName}</div>
-                            <div style="color:grey;">${data[i].ClassDescription}&nbsp</div>
-                        </div>
-
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        `
-        }
-
-        $('#div_classList').html(appendHtml)
-    }else{
-        swal.fire('沒有網路連線')
-    }
-}
-
-
-var getAllData = function (){
-
-}
-
-var getAllWord = function (){
-
-}
-
-
-var join_class = function (){
+var join_class = function () {
 
     let classCode = $('#classCode').val()
-    if(classCode==""){
+    if (classCode == "") {
         swal.fire('請輸入班級代碼')
-    }else{
+    } else {
         console.log('[AJAX] newClassStudentByCLassCode')
         let postData = {}
         postData.studentId = studentId
@@ -145,8 +112,55 @@ var join_class = function (){
             console.log(jqXHR)
             console.log(textStatus)
             console.log(errorThrown)
-            divShowClassList()
 
         });
     }
+}
+
+
+var index_show_class_list = function () {
+
+
+    var classJson = JSON.parse(localStorage.getItem('class'))
+    var appendHtmlForClassList = ``
+    for (let i in classJson) {
+        if (parseInt(i) % 4 == 0 || parseInt(i) % 4 == 3) {
+            appendHtmlForClassList +=
+                `        <div class="col s6">
+                            <div class="row">
+                                <div class="col s12 m7 ">
+                                    <a href="class.html?classId=${classJson[i].ClassId}&className=${classJson[i].ClassName}" class="card no_shadow" style="margin-bottom: 0px;">
+                                        <div class="div_border_top" style="width: 100%;padding-top: 60px;padding-bottom:60px;background-color: #9FC5FF;">
+                                        </div>
+                                        <div class="div_border_bottom" style="padding: 12px;background-color:#E3EEFF;">
+                                            <div style="color:#7F7F7F;">${classJson[i].ClassName}&nbsp</div>
+                                            <div style="color:#CCCCCC;">${classJson[i].ClassDescription}&nbsp</div>
+                                        </div>
+
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                `
+        } else {
+            appendHtmlForClassList +=
+                `        <div class="col s6">
+                            <div class="row">
+                                <div class="col s12 m7 ">
+                                    <a href="class.html?classId=${classJson[i].ClassId}&className=${classJson[i].ClassName}" class="card no_shadow" style="margin-bottom: 0px;">
+                                        <div class="div_border_top" style="width: 100%;padding-top: 60px;padding-bottom:60px;background-color: #E1F2FF;">
+                                        </div>
+                                        <div class="div_border_bottom" style="padding: 12px;background-color:#F6FBFF;">
+                                            <div style="color:#7F7F7F;">${classJson[i].ClassName}&nbsp</div>
+                                            <div style="color:#CCCCCC;">${classJson[i].ClassDescription}&nbsp</div>
+                                        </div>
+
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                `
+        }
+    }
+    $('#div_classList').html(appendHtmlForClassList)
 }
