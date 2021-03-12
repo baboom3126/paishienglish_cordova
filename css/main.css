@@ -16,12 +16,26 @@
 
 html, body {
     /*color:#03a9f4;*/
-
+    background-color: white;
     width: 100vw;
     height:100%;
     overflow-y: auto;
 
 }
+input, select, textarea{
+    color: #7FA8E6;
+}
+
+input:focus {
+    border-bottom: 1px solid #7FA8E6 !important;
+    box-shadow: 0 1px 0 0 #7FA8E6 !important;
+}
+
+
+label.active {
+    color: #7FA8E6 !important;
+}
+
 nav{
     height:68px
 }

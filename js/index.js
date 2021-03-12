@@ -7,7 +7,7 @@ $(document).ready(function () {
     $('#nav_student_name').html('&nbsp&nbsp' + studentInfo.name)
     if (localStorage.getItem('class') == null) {
         downloadAllData()
-    }else{
+    } else {
         index_show_class_list()
     }
     // downloadAllData()
@@ -89,22 +89,25 @@ var join_class = function () {
             if (code != 200) {
                 swal.fire('伺服器維修中')
             } else {
-                let data = response.data.queryClassBySid
+                if (response.message == "multiple class") {
+                    swal.fire('已有相同的班級')
+                } else {
+                    let data = response.data.queryClassBySid
 
-                localStorage.setItem('classList', JSON.stringify(data))
-                Swal.fire({
-                    title: '加入成功',
-                    showDenyButton: false,
-                    showCancelButton: false,
-                    confirmButtonText: `確定`,
-                    denyButtonText: `No`,
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        location.reload()
-                    }
-                })
-
+                    localStorage.setItem('classList', JSON.stringify(data))
+                    Swal.fire({
+                        title: '加入成功',
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: `確定`,
+                        denyButtonText: `No`,
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            location.reload()
+                        }
+                    })
+                }
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log('[FAIL] ')
