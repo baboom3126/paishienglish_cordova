@@ -8,7 +8,7 @@ for (var i in splitUrlKeyValue) {
 
 $(document).ready(function () {
 
-    $('#div_chapterName').text(decodeURIComponent(thisChapter.chapterName))
+    $('#div_chapterName').html('<img src="./img/main/iconBACKWARD@3x.png" height="18"> &nbsp'+decodeURIComponent(thisChapter.chapterName))
     var textbookContentChapterDeck = JSON.parse(localStorage.getItem('textbookContentChapterDeck'))
     if (textbookContentChapterDeck == null) {
 
@@ -32,7 +32,9 @@ var showWordList = function (data) {
                             </div>
                             <div class="col s2">
                                 <div class="div_word_element_right">
-                                    ☆
+                                    <img src="./img/main/iconSTAR@3x.png" height="16">
+<!--                                    <img src="./img/main/iconSTAR_selected@3x.png" height="16">-->
+
                                 </div>
                             </div>
                         </div>`

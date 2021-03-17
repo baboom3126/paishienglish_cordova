@@ -90,8 +90,12 @@ var showDivTextbookInfos = function (data){
     for(var i of Object.keys(temp)){
         appendHTML+=`    
                         <li>
-                            <div class="collapsible-header"><i class="fa fa-book" aria-hidden="true"></i>${temp[i][0].TextbookContentName}</div>
-                            <div class="collapsible-body" style="background-color: white;">
+                            <div class="collapsible-header row">
+                            <div class="col s10">
+                            <i class="fa fa-book" aria-hidden="true"></i>${temp[i][0].TextbookContentName}
+                            </div><div class="col s2"><span class="" >＾</span></div>
+                            </div>
+                            <div class="collapsible-body">
                         `
 
         var tempHTML = ``
@@ -113,8 +117,8 @@ var showDivTextbookInfos = function (data){
 
     $('#div_textbookInfo').html(appendHTML)
 
-    var elem = document.querySelector('.collapsible.expandable');
+    var elem = document.querySelector('.collapsible');
     var instance = M.Collapsible.init(elem, {
-        accordion: false
+        accordion: true
     });
 }

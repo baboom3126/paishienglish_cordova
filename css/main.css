@@ -25,7 +25,10 @@ html, body {
 input, select, textarea{
     color: #7FA8E6;
 }
+select{
+    -webkit-appearance:none;
 
+}
 input:focus {
     border-bottom: 1px solid #7FA8E6 !important;
     box-shadow: 0 1px 0 0 #7FA8E6 !important;
@@ -72,19 +75,19 @@ footer {
     width: calc(100%/3);
     display: inline-block;
     text-align: center;
-    padding-top: 12px;
-    padding-bottom: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     /*background-color: #03a9f4;*/
     color:#7FA8E6;
     font-size: x-large;
 }
 .footer_div{
-
+    border-top: 4px solid rgba(0,0,0,0);
     width: calc(100%/3);
     display: inline-block;
     text-align: center;
-    padding-top: 12px;
-    padding-bottom: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     /*background-color: #81d4fa;*/
     color:#7FA8E6;
     font-size: x-large;
