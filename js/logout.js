@@ -1,7 +1,7 @@
 var div_opacity = function () {
-    $('body').append(`<div id="div_opacity"><div class="div_opacity"></div>
-        <div class="div_loading">
-            <div class="card" style="
+    $('body').append(`<div id="div_opacity" ><div class="div_opacity"></div>
+        <div class="div_loading" id="div_loading"  style="    display: none;">
+            <div class="card" id="logout_card" style="
     padding-top: 65px;
     padding-bottom: 65px;
     text-align: center;
@@ -28,10 +28,17 @@ var div_opacity = function () {
 
         </div>
         </div>`)
+
+    $('#div_loading').fadeIn('normal')
 }
 
 var remove_div_opacity = function () {
-    $('#div_opacity').remove()
+
+    $('#div_loading').fadeOut('normal',function (){
+        $('#div_opacity').remove()
+    })
+
+
 }
 
 var btn_logout = function (){

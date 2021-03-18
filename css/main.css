@@ -24,6 +24,7 @@ html, body {
 }
 input, select, textarea{
     color: #7FA8E6;
+
 }
 select{
     -webkit-appearance:none;
