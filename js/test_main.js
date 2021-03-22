@@ -186,8 +186,27 @@ $('#a_nextPage').click(function () {
             }
         }
         if (flag) {
-            localStorage.setItem('test_chapters', test_chapters)
-            location.href = './test_mode_select.html'
+            //////////then check the word in test_chapters is empty or not
+            let flagForCheckEmpty = false
+            let textbookContentChapterDeck = JSON.parse(localStorage.getItem('textbookContentChapterDeck'))
+            for(let chapterId of test_chapters){
+                let filterChapterDeck  = textbookContentChapterDeck.filter(function (item,index,array){
+                    return item.TextbookContentChapterId == chapterId
+                })
+                console.log(filterChapterDeck)
+                if(filterChapterDeck.length!=0){
+                    flagForCheckEmpty = true
+                }
+            }
+            if(flagForCheckEmpty){
+                localStorage.setItem('test_chapters', test_chapters)
+                location.href = './test_mode_select.html'
+            }else{
+                swal.fire('所選章節無內容')
+            }
+
+
+
         }else{
             swal.fire('請選擇教材章節')
 

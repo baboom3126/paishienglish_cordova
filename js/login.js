@@ -1,9 +1,10 @@
 var btn_login = function (){
+
     var account = $('#user_account').val()
     var password = $('#user_password').val()
 
     if(account==''||password==''){
-        swal.fire('請輸入帳號密碼')
+        alert('請輸入帳號密碼')
     }else{
         let postData = {}
         postData.account = account
@@ -23,20 +24,20 @@ var btn_login = function (){
         $.ajax(settings).done(function (response) {
             var code = response.code
             if(code !=200){
-                swal.fire('伺服器維修中')
+                alert('伺服器維修中')
             }else{
                 let data = response.data
                 if(data.studentId != null){
                     localStorage.setItem('student',JSON.stringify(data))
                     location.href = './index.html'
                 }else{
-                    swal.fire('帳號密碼錯誤')
+                    alert('帳號密碼錯誤')
                     $('#user_password').val('')
                 }
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log('[FAIL] ')
-            swal.fire('伺服器維修中')
+            alert('伺服器維修中')
             console.log(jqXHR)
             console.log(textStatus)
             console.log(errorThrown)
