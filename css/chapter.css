@@ -89,3 +89,17 @@
     color: #707070;
 
 }
+
+.div_previous_word{
+    position: absolute;
+    z-index: 20;
+    top: 47%;
+    left:2%;
+}
+
+.div_next_word{
+    position: absolute;
+    z-index: 20;
+    top: 47%;
+    right:2%;
+}

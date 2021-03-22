@@ -32,7 +32,7 @@ let nextCard = function (index) {
 
 let getCardHtmlForMode1ByWord = function (word) {
     let wordInfo = getWordInfo(word)
-
+    let front_card_html = ``
     let wordDefHtml = ``
     for (let i in wordInfo.wordDef) {
         wordDefHtml += `
@@ -49,9 +49,16 @@ let getCardHtmlForMode1ByWord = function (word) {
                         <br>
 
         `
-    }
 
+    }
     wordSenHtml = wordSenHtml.replaceAll(word,'<font color="E25A53">'+word+'</font>')
+    ////only get the first sentence as example
+    front_card_html+=`
+        <div style="color: #7FA8E6;"> ${wordInfo.wordSen[0].EngSentence}</div>
+        <br>
+        `
+
+    front_card_html = front_card_html.replaceAll(word,'<font color="E25A53">'+word+'</font>')
 
 
     let cardHtml = `
@@ -69,11 +76,11 @@ let getCardHtmlForMode1ByWord = function (word) {
                                 <img src="./img/main/iconSTAR@3x.png" height="20" style="margin-top: 10px;">
                             </div>
                         </div>
-                        <div class="row" style="height: 22%;"></div>
+                        <div class="row" style="height: 20%;"></div>
 
                         <div class="row" style="">
-                            <div class="col s12" style="text-align: center;font-size: 26px;color: #7FA8E6;">
-                                ${word}
+                            <div class="col s12" style="text-align: center;font-size: 18px;color: #7FA8E6;">
+                                ${front_card_html}
                             </div>
 
                         </div>

@@ -8,6 +8,43 @@ $(document).ready(function () {
     if (localStorage.getItem('class') == null) {
         downloadAllData()
     } else {
+
+        let postData = {}
+        postData.studentId = studentId
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": baseUrl + "app/v2/getVersion",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/json",
+                "cache-control": "no-cache",
+            }, data: JSON.stringify(postData)
+        }
+
+        $.ajax(settings).done(function (response) {
+            let serverVersion = response.version
+            let localVersion = JSON.parse(localStorage.getItem('version')).version
+            if (serverVersion != localVersion) {
+
+                Swal.fire({
+                    title: '有最新資料可下載',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: `下載`,
+                    denyButtonText: `取消`,
+                }).then((result) => {
+                    console.log(result)
+                    if (result.isConfirmed) {
+                        downloadAllData()
+
+                    }
+                })
+            }
+
+        })
+
+
         index_show_class_list()
     }
     // downloadAllData()

@@ -3,16 +3,16 @@ let testCount = 0;
 $(document).ready(function () {
 
 
-        nextCard(0)
-        testCount = 1
+    nextCard(0)
+    testCount = 1
 
 
 })
 
 let answer_click = function () {
-    if(testCount==testWords.length){
+    if (testCount == testWords.length) {
         console.log('done')
-    }else{
+    } else {
         currentWord = testWords[testCount]
         nextCard(testCount)
     }
@@ -22,23 +22,29 @@ let answer_click = function () {
 
 let nextCard = function (index) {
 
-    let cardHtml = getCardHtmlForMode1ByWord(testWords[index])
+    let cardHtml = getCardHtmlForMode2ByWord(testWords[index])
     $('#word_card').html(cardHtml)
     testCount = testCount + 1
-    $('#test_progressCounter').text(testCount+'/'+testWords.length)
-    $('#test_progressBar').css('width',(testCount/testWords.length)*100+'%')
+    $('#test_progressCounter').text(testCount + '/' + testWords.length)
+    $('#test_progressBar').css('width', (testCount / testWords.length) * 100 + '%')
 }
 
 
-let getCardHtmlForMode1ByWord = function (word) {
+let getCardHtmlForMode2ByWord = function (word) {
+
+    let front_card_html = ``
+
     let wordInfo = getWordInfo(word)
 
     let wordDefHtml = ``
     for (let i in wordInfo.wordDef) {
-        wordDefHtml += `
+        wordDefHtml += `<br>
                        <div> ${parseInt(i) + 1}. ${wordInfo.wordDef[i].ChiDefinition}</div>
-                       <br>
-                        `
+                        <br>`
+
+        front_card_html += `
+                            <div> ${wordInfo.wordDef[i].ChiDefinition}</div>
+                            `
     }
 
     let wordSenHtml = ``
@@ -49,6 +55,7 @@ let getCardHtmlForMode1ByWord = function (word) {
                         <br>
 
         `
+
     }
 
     wordSenHtml = wordSenHtml.replaceAll(word,'<font color="E25A53">'+word+'</font>')
@@ -69,11 +76,11 @@ let getCardHtmlForMode1ByWord = function (word) {
                                 <img src="./img/main/iconSTAR@3x.png" height="20" style="margin-top: 10px;">
                             </div>
                         </div>
-                        <div class="row" style="height: 22%;"></div>
+                        <div class="row" style="height: 20%;"></div>
 
                         <div class="row" style="">
-                            <div class="col s12" style="text-align: center;font-size: 26px;color: #7FA8E6;">
-                                ${word}
+                            <div class="col s12" style="text-align: center;font-size: 22px;color: #7FA8E6;">
+                                ${front_card_html}
                             </div>
 
                         </div>

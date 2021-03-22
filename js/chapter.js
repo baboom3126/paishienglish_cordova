@@ -6,18 +6,26 @@ for (var i in splitUrlKeyValue) {
     thisChapter[tempURL[0]] = tempURL[1]
 }
 
+var filterDeck;
+var wordListArray = []
+
 $(document).ready(function () {
 
-    $('#div_chapterName').html('<img src="./img/main/iconBACKWARD@3x.png" height="18"> &nbsp'+decodeURIComponent(thisChapter.chapterName))
+    $('#div_chapterName').html('<img src="./img/main/iconBACKWARD@3x.png" height="18"> &nbsp' + decodeURIComponent(thisChapter.chapterName))
     var textbookContentChapterDeck = JSON.parse(localStorage.getItem('textbookContentChapterDeck'))
     if (textbookContentChapterDeck == null) {
 
     } else {
-        var filterDeck = textbookContentChapterDeck.filter(function (item, index, array) {
+        filterDeck = textbookContentChapterDeck.filter(function (item, index, array) {
             return item.TextbookContentChapterId == thisChapter.chapterId
         })
         showWordList(filterDeck)
     }
+
+    for (let i in filterDeck) {
+        wordListArray.push(filterDeck[i].TheWord)
+    }
+
 })
 
 var showWordList = function (data) {
@@ -77,7 +85,10 @@ var show_word = function (word) {
     let device_height = document.documentElement.clientHeight
 
     $('body').append(`<div id="div_opacity">
-                            <div class="div_opacity" onclick="javascript:close_word(this)"></div>
+                            <div class="div_opacity"  onclick="javascript:close_word(this)"></div>
+                            <div class="div_previous_word waves-effect" onclick="javascript:show_previous_word('${word}')"><img src="./img/btn/buttonBACK@3x.png" height="41" width="41"></div>                            
+                            <div class="div_next_word waves-effect" onclick="javscript:show_next_word('${word}')"><img src="./img/btn/buttonNEXT@3x.png" height="41" width="41"></div>
+
                             <div class="flip-container" onclick="this.classList.toggle('hover');" style="top:${device_height * 0.15}px">
                                     <div class="flipper">
                                         <div class="front div-deck-card align-middle" style="height:${device_height * 0.7}px;">
@@ -111,4 +122,30 @@ var close_word = function (that) {
     console.log($(that).parent().remove())
     $('body').css('overflow-y', '')
 
+}
+
+var show_previous_word = function (word) {
+    let wordIndex = wordListArray.findIndex(function (element) {
+        return element == word
+    })
+
+    if (wordIndex > 0) {
+        $('#div_opacity').remove()
+        show_word(wordListArray[wordIndex - 1])
+    }else{
+        alert('前面沒有單字了')
+    }
+}
+
+var show_next_word = function (word) {
+    let wordIndex = wordListArray.findIndex(function (element) {
+        return element == word
+    })
+
+    if (wordIndex < wordListArray.length-1) {
+        $('#div_opacity').remove()
+        show_word(wordListArray[wordIndex + 1])
+    }else{
+        alert('後面沒有單字了')
+    }
 }

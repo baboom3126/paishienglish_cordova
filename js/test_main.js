@@ -187,27 +187,44 @@ $('#a_nextPage').click(function () {
         }
         if (flag) {
             //////////then check the word in test_chapters is empty or not
-            let flagForCheckEmpty = false
+
             let textbookContentChapterDeck = JSON.parse(localStorage.getItem('textbookContentChapterDeck'))
-            for(let chapterId of test_chapters){
-                let filterChapterDeck  = textbookContentChapterDeck.filter(function (item,index,array){
+
+            let arrayForEmptyChapter = []
+
+            for (let chapterId of test_chapters) {
+                let filterChapterDeck = textbookContentChapterDeck.filter(function (item, index, array) {
                     return item.TextbookContentChapterId == chapterId
                 })
                 console.log(filterChapterDeck)
-                if(filterChapterDeck.length!=0){
-                    flagForCheckEmpty = true
+                if (filterChapterDeck.length == 0) {
+                    arrayForEmptyChapter.push(chapterId)
                 }
             }
-            if(flagForCheckEmpty){
+            if (arrayForEmptyChapter.length == 0) {
+                ////all not empty
                 localStorage.setItem('test_chapters', test_chapters)
                 location.href = './test_mode_select.html'
-            }else{
-                swal.fire('所選章節無內容')
+            } else {
+                ////one or more is empty
+                let textbookContentChapter = localStorage.getItem('textbookContentChapter')
+
+                let arrayForEmptyChapterGetName = []
+                for (let id of arrayForEmptyChapter) {
+                    let filterTCC = JSON.parse(textbookContentChapter).filter(function (item, index, array) {
+                        return item.TextbookContentChapterId == id
+                    })
+                    for(let i in filterTCC){
+                        arrayForEmptyChapterGetName.push(filterTCC[i].TextbookContentChapterName)
+                    }
+
+                }
+
+                swal.fire(`選擇章節無內容: <br>`+arrayForEmptyChapterGetName.join('、<br>'))
             }
 
 
-
-        }else{
+        } else {
             swal.fire('請選擇教材章節')
 
         }
