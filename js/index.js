@@ -8,6 +8,7 @@ $(document).ready(function () {
     if (localStorage.getItem('class') == null) {
         downloadAllData()
     } else {
+        index_show_class_list()
 
         let postData = {}
         postData.studentId = studentId
@@ -45,7 +46,6 @@ $(document).ready(function () {
         })
 
 
-        index_show_class_list()
     }
     // downloadAllData()
 

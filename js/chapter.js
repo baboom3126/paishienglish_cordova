@@ -149,3 +149,8 @@ var show_next_word = function (word) {
         alert('後面沒有單字了')
     }
 }
+
+var page_go_back = function (){
+    window.history.back();
+
+}

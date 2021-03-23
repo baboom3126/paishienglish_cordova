@@ -1,5 +1,8 @@
 let testWords = randomArray(getTestWordsByChapterInLocalStorage())
 let testCount = 0;
+let good = []
+let normal = []
+let bad = []
 $(document).ready(function () {
 
 
@@ -9,13 +12,36 @@ $(document).ready(function () {
 
 })
 
-let answer_click = function () {
+let answer_click = function (status) {
+
+    switch(status){
+        case "good":
+            good.push(testWords[testCount-1])
+            break;
+        case "normal":
+            normal.push(testWords[testCount-1])
+            break;
+        case "bad":
+            bad.push(testWords[testCount-1])
+            break;
+    }
+
+
     if(testCount==testWords.length){
+        let test_result_mode1 = {}
+        test_result_mode1.good = good
+        test_result_mode1.normal = normal
+        test_result_mode1.bad = bad
+        localStorage.setItem("test_result_mode1",JSON.stringify(test_result_mode1))
+        $('#div_answers').css('margin-top','15%')
+        $('#div_answers').html('<a href="./test_result_mode1.html" class="btn confirm_button waves-effect">結束測驗</a>')
         console.log('done')
     }else{
         currentWord = testWords[testCount]
         nextCard(testCount)
     }
+
+
 
 }
 

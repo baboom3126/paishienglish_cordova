@@ -1,5 +1,6 @@
 let deviceHeight = document.documentElement.clientHeight
 let testWords = randomArray(getTestWordsByChapterInLocalStorage())
+// let testWords = ["competence",  "stockpile", "trigger","consumer", "phenomenon", "ration"]
 let testCount = 0;
 let correct = []
 let wrong = []
@@ -41,7 +42,9 @@ $(document).ready(function () {
 
     })
 
-
+    $('#test_card_for_mode45').click(function () {
+        audio_word.play()
+    })
 
 
     $('#confirm_answer_button').click(function () {
@@ -62,21 +65,19 @@ $(document).ready(function () {
 
 
                 correct.push(testWords[testCount])
-                $('#span_correct_or_wrong').css('color','#7FA8E6')
+                $('#span_correct_or_wrong').css('color', '#7FA8E6')
                 $('#span_correct_or_wrong').text('答對了')
 
                 // M.toast({html: '正確', displayLength: 1000, classes: 'green'})
 
 
-
             } else {
 
                 wrong.push(testWords[testCount])
-                $('#span_correct_or_wrong').css('color','#E25A53')
+                $('#span_correct_or_wrong').css('color', '#E25A53')
                 $('#span_correct_or_wrong').text('答錯了')
 
                 // M.toast({html: '錯誤 正確答案為' + testWords[testCount], displayLength: 1000, classes: 'red'})
-
 
 
             }
@@ -90,17 +91,17 @@ $(document).ready(function () {
     $('#btn_nextWord').click(function () {
 
 
-        if(testCount == testWords.length-1){
+        if (testCount == testWords.length - 1) {
             $('#btn_nextWord').text('測驗結束')
             console.log('done')
             let test_result = {}
             test_result.correct = correct
             test_result.wrong = wrong
 
-            localStorage.setItem('test_result_mode4',JSON.stringify(test_result))
+            localStorage.setItem('test_result_mode5', JSON.stringify(test_result))
 
 
-        }else{
+        } else {
             $('#input_test_mode4_answer').val('')
 
             $('#span_correct_or_wrong').hide()
@@ -124,13 +125,30 @@ let init_test = function () {
 
     let currentWordInfo = getWordInfo(testWords[0])
 
+    let sentenceHtml = ``
+    for (let i in currentWordInfo.wordSen) {
+        sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
+                            <br><br>
+                            <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
+                            <br>
+                        `
+    }
+    if(sentenceHtml.includes(testWords[0])){
+        sentenceHtml = sentenceHtml.replaceAll(testWords[0], '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+    }else if(sentenceHtml.includes(testWords[0].slice(0, -1))){
+        sentenceHtml = sentenceHtml.replaceAll(testWords[0].slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+
+    }
+
+
+    $('#div_sentence').html(sentenceHtml)
+
+
     if (currentWordInfo.word.AudioPath != "") {
         $('#audio_source').attr('src', currentWordInfo.word.AudioPath)
-        audio_word.load()
-        audio_word.play()
+
     } else {
-        alert('這個單字暫無音擋')
-        next_word()
+
 
     }
 
@@ -140,33 +158,54 @@ let init_test = function () {
 
 let next_word = function () {
     let currentWordInfo = getWordInfo(testWords[testCount])
-    $('#audio_source').attr('src', currentWordInfo.word.AudioPath)
-    audio_word.load()
-    audio_word.play()
+
+
 
     $('#test_card_for_mode45_back').html('')
     $('#test_card_for_mode45').show()
+
+
+    let sentenceHtml = ``
+    for (let i in currentWordInfo.wordSen) {
+        sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
+                            <br><br>
+                            <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
+                            <br>
+                        `
+    }
+
+    if(sentenceHtml.includes(testWords[testCount])){
+        sentenceHtml = sentenceHtml.replaceAll(testWords[testCount], '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+    }else if(sentenceHtml.includes(testWords[testCount].slice(0, -1))){
+        sentenceHtml = sentenceHtml.replaceAll(testWords[testCount].slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+
+    }
+    $('#div_sentence').html(sentenceHtml)
+
+
+
+
     $('#test_card_for_mode45_back').hide()
 
 }
 
-let show_wordDetail = function (){
+let show_wordDetail = function () {
 
     let currentWordInfo = getWordInfo(testWords[testCount])
     let wordDefHtml = ``
     let wordSenHtml = ``
 
-    for(let i in currentWordInfo.wordDef){
-        wordDefHtml += `<div> ${parseInt(i)+1}. ${currentWordInfo.wordDef[i].ChiDefinition}</div><br>`
+    for (let i in currentWordInfo.wordDef) {
+        wordDefHtml += `<div> ${parseInt(i) + 1}. ${currentWordInfo.wordDef[i].ChiDefinition}</div><br>`
     }
 
-    for(let i in currentWordInfo.wordSen){
-        wordSenHtml += `<div style="color: #7FA8E6;"> ${parseInt(i)+1}. ${currentWordInfo.wordSen[i].EngSentence}</div>
+    for (let i in currentWordInfo.wordSen) {
+        wordSenHtml += `<div style="color: #7FA8E6;"> ${parseInt(i) + 1}. ${currentWordInfo.wordSen[i].EngSentence}</div>
                         <div>${currentWordInfo.wordSen[i].ChiSentence}</div>
                         <br>`
     }
 
-    wordSenHtml = wordSenHtml.replaceAll(testWords[testCount],'<font color="E25A53">'+testWords[testCount]+'</font>')
+    wordSenHtml = wordSenHtml.replaceAll(testWords[testCount], '<font color="E25A53">' + testWords[testCount] + '</font>')
 
     $('#test_card_for_mode45').hide()
 
@@ -208,7 +247,7 @@ let show_wordDetail = function (){
 }
 
 
-let play_audio = function (){
+let play_audio = function () {
+    audio_word.load()
     audio_word.play()
-
 }
