@@ -130,7 +130,9 @@ let init_test = function () {
 
     let sentenceHtml = ``
     if (currentWordInfo.wordSen.length == 0) {
-        sentenceHtml = `<div><span style="color: #7FA8E6;"> ${currentWordInfo.word.TheWord} 此單字沒有例句</span></div>`
+        sentenceHtml = `<div><span style="color: #7FA8E6;">此單字沒有例句</span></div>`
+        $('#input_test_mode4_answer').val(currentWordInfo.word.TheWord)
+
     } else {
         for (let i in currentWordInfo.wordSen) {
             if (parseInt(i) > 1) {
@@ -174,19 +176,27 @@ let next_word = function () {
 
 
     let sentenceHtml = ``
-    for (let i in currentWordInfo.wordSen) {
-        sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
+    if (currentWordInfo.wordSen.length == 0) {
+        sentenceHtml = `<div><span style="color: #7FA8E6;">此單字沒有例句</span></div>`
+        $('#input_test_mode4_answer').val(currentWordInfo.word.TheWord)
+    } else {
+        for (let i in currentWordInfo.wordSen) {
+            if (parseInt(i) > 1) {
+                break
+            }
+            sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
                             <br><br>
                             <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
                             <br>
                         `
-    }
+        }
 
-    if (sentenceHtml.includes(currentWordInfo.word.TheWord)) {
-        sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord, '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
-    } else if (sentenceHtml.includes(currentWordInfo.word.TheWord.slice(0, -1))) {
-        sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord.slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+        if (sentenceHtml.includes(currentWordInfo.word.TheWord)) {
+            sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord, '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+        } else if (sentenceHtml.includes(currentWordInfo.word.TheWord.slice(0, -1))) {
+            sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord.slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
 
+        }
     }
     $('#div_sentence').html(sentenceHtml)
 
