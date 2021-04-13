@@ -24,12 +24,15 @@ $(document).ready(function () {
     })
 
     $('#div_input').focusout(function () {
-        $('.test_card_for_mode45').css('height', '90%')
-        $('#div_row3').css('height', deviceHeight / 10 * 5 + 'px')
 
-        $('#div_row1').show()
-        $('#div_row2').show()
-        $('#div_row5').show()
+        setTimeout(function () {
+            $('.test_card_for_mode45').css('height', '90%')
+            $('#div_row3').css('height', deviceHeight / 10 * 5 + 'px')
+
+            $('#div_row1').show()
+            $('#div_row2').show()
+            $('#div_row5').show()
+        }, 50)
 
     })
 
@@ -58,7 +61,7 @@ $(document).ready(function () {
             show_wordDetail()
             $('#span_correct_or_wrong').show()
 
-            if (answer == testWords[testCount].toLowerCase()) {
+            if (answer == getWordInfo(testWords[testCount]).word.TheWord.toLowerCase()) {
 
 
                 correct.push(testWords[testCount])
@@ -153,6 +156,7 @@ let next_word = function () {
 let show_wordDetail = function (){
 
     let currentWordInfo = getWordInfo(testWords[testCount])
+    let word = currentWordInfo.word.TheWord
     let wordDefHtml = ``
     let wordSenHtml = ``
 
@@ -177,7 +181,7 @@ let show_wordDetail = function (){
                         </div>
                         <div class="row" style="height: 15%;border-bottom: 1px solid #E1F2FF;">
                             <div class="col s10">
-                                <span class="test_card_back_title">${testWords[testCount]}</span><span style="color: #E25A53;font-size: 14px;margin-left: 10px;">${currentWordInfo.word.Speech}</span>
+                                <span class="test_card_back_title">${word}</span><span style="color: #E25A53;font-size: 14px;margin-left: 10px;">${currentWordInfo.word.Speech}</span>
                             </div>
                             <div class="col s2">
                                 <img src="./img/test/iconSOUNDON@3x.png" height="20" style="margin-top: 10px;">

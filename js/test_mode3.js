@@ -6,38 +6,38 @@ let bad = []
 $(document).ready(function () {
 
 
-        nextCard(0)
-        testCount = 1
+    nextCard(0)
+    testCount = 1
 
 
 })
 
 let answer_click = function (status) {
 
-    switch(status){
+    switch (status) {
         case "good":
-            good.push(testWords[testCount-1])
+            good.push(testWords[testCount - 1])
             break;
         case "normal":
-            normal.push(testWords[testCount-1])
+            normal.push(testWords[testCount - 1])
             break;
         case "bad":
-            bad.push(testWords[testCount-1])
+            bad.push(testWords[testCount - 1])
             break;
     }
 
-    if(testCount==testWords.length){
+    if (testCount == testWords.length) {
 
         let test_result_mode3 = {}
         test_result_mode3.good = good
         test_result_mode3.normal = normal
         test_result_mode3.bad = bad
-        localStorage.setItem("test_result_mode3",JSON.stringify(test_result_mode3))
-        $('#div_answers').css('margin-top','15%')
+        localStorage.setItem("test_result_mode3", JSON.stringify(test_result_mode3))
+        $('#div_answers').css('margin-top', '15%')
         $('#div_answers').html('<a href="./test_result_mode3.html" class="btn confirm_button waves-effect">結束測驗</a>')
 
         console.log('done')
-    }else{
+    } else {
         currentWord = testWords[testCount]
         nextCard(testCount)
     }
@@ -50,13 +50,14 @@ let nextCard = function (index) {
     let cardHtml = getCardHtmlForMode1ByWord(testWords[index])
     $('#word_card').html(cardHtml)
     testCount = testCount + 1
-    $('#test_progressCounter').text(testCount+'/'+testWords.length)
-    $('#test_progressBar').css('width',(testCount/testWords.length)*100+'%')
+    $('#test_progressCounter').text(testCount + '/' + testWords.length)
+    $('#test_progressBar').css('width', (testCount / testWords.length) * 100 + '%')
 }
 
 
-let getCardHtmlForMode1ByWord = function (word) {
-    let wordInfo = getWordInfo(word)
+let getCardHtmlForMode1ByWord = function (wordId) {
+    let wordInfo = getWordInfo(wordId)
+    let word = wordInfo.word.TheWord
     let front_card_html = ``
     let wordDefHtml = ``
     for (let i in wordInfo.wordDef) {
@@ -76,14 +77,23 @@ let getCardHtmlForMode1ByWord = function (word) {
         `
 
     }
-    wordSenHtml = wordSenHtml.replaceAll(word,'<font color="E25A53">'+word+'</font>')
+    wordSenHtml = wordSenHtml.replaceAll(word, '<font color="E25A53">' + word + '</font>')
+
     ////only get the first sentence as example
-    front_card_html+=`
+    if (wordInfo.wordSen[0] === undefined) {
+        front_card_html += `
+        <div style="color: #7FA8E6;"> 單字 ${word} 沒有英文例句</div>
+        <br>
+        `
+    } else {
+        front_card_html += `
         <div style="color: #7FA8E6;"> ${wordInfo.wordSen[0].EngSentence}</div>
         <br>
         `
+    }
 
-    front_card_html = front_card_html.replaceAll(word,'<font color="E25A53">'+word+'</font>')
+
+    front_card_html = front_card_html.replaceAll(word, '<font color="E25A53">' + word + '</font>')
 
 
     let cardHtml = `

@@ -23,18 +23,22 @@ $(document).ready(function () {
     }
 
     for (let i in filterDeck) {
-        wordListArray.push(filterDeck[i].TheWord)
+        wordListArray.push(filterDeck[i].WordId)
     }
 
 })
 
 var showWordList = function (data) {
+    var wordIdAndNamePair = {}
+    for(let i of JSON.parse(localStorage.getItem('word'))){
+        wordIdAndNamePair[i.WordId] = i.TheWord
+    }
     var appendHtml = ``
     for (let i in data) {
-        appendHtml += `    <div class="row div_word_row" onclick="javascript:show_word('${data[i].TheWord}')">
+        appendHtml += `    <div class="row div_word_row" onclick="javascript:show_word('${data[i].WordId}')">
                             <div class="col s10">
                                 <div class="">
-                                ${data[i].TheWord}
+                                ${wordIdAndNamePair[data[i].WordId]}
                                 </div>
 
                             </div>
@@ -50,22 +54,26 @@ var showWordList = function (data) {
     $('#div_word_list').html(appendHtml)
 }
 
-var show_word = function (word) {
+var show_word = function (wordId) {
     $('body').css('overflow-y', 'hidden')
     var wordInfo = JSON.parse(localStorage.getItem('word')).find(function (item, index, array) {
-        return item.TheWord == word
+        return item.WordId == wordId
     })
+
+    var word = wordInfo.TheWord
+
+
     if (wordInfo.AudioPath != "") {
         $('#audio_source').attr('src', wordInfo.AudioPath)
         audio_word.load()
         audio_word.play()
     }
     var wordSen = JSON.parse(localStorage.getItem('wordSen')).filter(function (item, index, array) {
-        return item.TheWord == word
+        return item.WordId == wordId
     })
 
     var wordDef = JSON.parse(localStorage.getItem('wordDef')).filter(function (item, index, array) {
-        return item.TheWord == word
+        return item.WordId == wordId
     })
     var appendHtmlForWordInfo = `<div class="back_card_word_title">${word}<div class="back_card_word_speech">${wordInfo.Speech}</div></div>`
     var appendHtmlForWordSen = `<div class="back_card_word_sen"><div style="color: #707070;font-weight: 600">例句</div>`
@@ -73,7 +81,6 @@ var show_word = function (word) {
 
 
     for (let i in wordDef) {
-        console.log(wordDef[i])
         appendHtmlForWordDef += `<div class="back_card_word_def_chi"> ${parseInt(i) + 1}. ${wordDef[i].ChiDefinition}</div><br>`
     }
     appendHtmlForWordDef += `</div>`
@@ -86,8 +93,8 @@ var show_word = function (word) {
 
     $('body').append(`<div id="div_opacity">
                             <div class="div_opacity"  onclick="javascript:close_word(this)"></div>
-                            <div class="div_previous_word waves-effect" onclick="javascript:show_previous_word('${word}')"><img src="./img/btn/buttonBACK@3x.png" height="41" width="41"></div>                            
-                            <div class="div_next_word waves-effect" onclick="javscript:show_next_word('${word}')"><img src="./img/btn/buttonNEXT@3x.png" height="41" width="41"></div>
+                            <div class="div_previous_word waves-effect" onclick="javascript:show_previous_word('${wordId}')"><img src="./img/btn/buttonBACK@3x.png" height="41" width="41"></div>                            
+                            <div class="div_next_word waves-effect" onclick="javscript:show_next_word('${wordId}')"><img src="./img/btn/buttonNEXT@3x.png" height="41" width="41"></div>
 
                             <div class="flip-container" onclick="this.classList.toggle('hover');" style="top:${device_height * 0.15}px">
                                     <div class="flipper">

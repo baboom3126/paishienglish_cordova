@@ -14,7 +14,7 @@ let getTestWordsByChapterInLocalStorage = function () {
         })
         let result = []
         for (let i in filterTccd) {
-            result.push(filterTccd[i].TheWord)
+            result.push(filterTccd[i].WordId)
         }
 
         return Array.from(new Set(result))
@@ -28,18 +28,18 @@ let randomArray = function (arr) {
     return arr
 }
 
-let getWordInfo = function (word) {
+let getWordInfo = function (wordId) {
     let wordJSON = JSON.parse(localStorage.getItem('word'))
     let filterWord = wordJSON.filter(function (item, index) {
-        return item.TheWord == word
+        return item.WordId == wordId
     })
     let wordSenJSON = JSON.parse(localStorage.getItem('wordSen'))
     let filterWordSen = wordSenJSON.filter(function (item, index) {
-        return item.TheWord == word
+        return item.WordId == wordId
     })
     let wordDefJSON = JSON.parse(localStorage.getItem('wordDef'))
     let filterWordDef = wordDefJSON.filter(function (item, index) {
-        return item.TheWord == word
+        return item.WordId == wordId
     })
     let result = {}
     result.word = filterWord[0]

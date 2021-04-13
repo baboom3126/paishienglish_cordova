@@ -25,12 +25,15 @@ $(document).ready(function () {
     })
 
     $('#div_input').focusout(function () {
-        $('.test_card_for_mode45').css('height', '90%')
-        $('#div_row3').css('height', deviceHeight / 10 * 5 + 'px')
+        setTimeout(function () {
 
-        $('#div_row1').show()
-        $('#div_row2').show()
-        $('#div_row5').show()
+            $('.test_card_for_mode45').css('height', '90%')
+            $('#div_row3').css('height', deviceHeight / 10 * 5 + 'px')
+
+            $('#div_row1').show()
+            $('#div_row2').show()
+            $('#div_row5').show()
+        }, 50)
 
     })
 
@@ -61,7 +64,7 @@ $(document).ready(function () {
             show_wordDetail()
             $('#span_correct_or_wrong').show()
 
-            if (answer == testWords[testCount].toLowerCase()) {
+            if (answer == getWordInfo(testWords[testCount]).word.TheWord.toLowerCase()) {
 
 
                 correct.push(testWords[testCount])
@@ -126,20 +129,26 @@ let init_test = function () {
     let currentWordInfo = getWordInfo(testWords[0])
 
     let sentenceHtml = ``
-    for (let i in currentWordInfo.wordSen) {
-        sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
-                            <br><br>
-                            <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
+    if (currentWordInfo.wordSen.length == 0) {
+        sentenceHtml = `<div><span style="color: #7FA8E6;"> ${currentWordInfo.word.TheWord} 此單字沒有例句</span></div>`
+    } else {
+        for (let i in currentWordInfo.wordSen) {
+            if (parseInt(i) > 1) {
+                break
+            }
+            sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
                             <br>
+                            <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
+                            <br><br>
                         `
-    }
-    if(sentenceHtml.includes(testWords[0])){
-        sentenceHtml = sentenceHtml.replaceAll(testWords[0], '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
-    }else if(sentenceHtml.includes(testWords[0].slice(0, -1))){
-        sentenceHtml = sentenceHtml.replaceAll(testWords[0].slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+        }
+        if (sentenceHtml.includes(currentWordInfo.word.TheWord)) {
+            sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord, '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+        } else if (sentenceHtml.includes(currentWordInfo.word.TheWord.slice(0, -1))) {
+            sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord.slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
 
+        }
     }
-
 
     $('#div_sentence').html(sentenceHtml)
 
@@ -160,7 +169,6 @@ let next_word = function () {
     let currentWordInfo = getWordInfo(testWords[testCount])
 
 
-
     $('#test_card_for_mode45_back').html('')
     $('#test_card_for_mode45').show()
 
@@ -174,15 +182,13 @@ let next_word = function () {
                         `
     }
 
-    if(sentenceHtml.includes(testWords[testCount])){
-        sentenceHtml = sentenceHtml.replaceAll(testWords[testCount], '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
-    }else if(sentenceHtml.includes(testWords[testCount].slice(0, -1))){
-        sentenceHtml = sentenceHtml.replaceAll(testWords[testCount].slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+    if (sentenceHtml.includes(currentWordInfo.word.TheWord)) {
+        sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord, '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+    } else if (sentenceHtml.includes(currentWordInfo.word.TheWord.slice(0, -1))) {
+        sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord.slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
 
     }
     $('#div_sentence').html(sentenceHtml)
-
-
 
 
     $('#test_card_for_mode45_back').hide()
@@ -216,7 +222,7 @@ let show_wordDetail = function () {
                         </div>
                         <div class="row" style="height: 15%;border-bottom: 1px solid #E1F2FF;">
                             <div class="col s10">
-                                <span class="test_card_back_title">${testWords[testCount]}</span><span style="color: #E25A53;font-size: 14px;margin-left: 10px;">${currentWordInfo.word.Speech}</span>
+                                <span class="test_card_back_title">${currentWordInfo.word.TheWord}</span><span style="color: #E25A53;font-size: 14px;margin-left: 10px;">${currentWordInfo.word.Speech}</span>
                             </div>
                             <div class="col s2">
                                 <img src="./img/test/iconSOUNDON@3x.png" height="20" style="margin-top: 10px;">

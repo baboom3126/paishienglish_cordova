@@ -58,15 +58,15 @@ let nextCard = function (index) {
 }
 
 
-let getCardHtmlForMode2ByWord = function (word) {
+let getCardHtmlForMode2ByWord = function (wordId) {
 
     let front_card_html = ``
 
-    let wordInfo = getWordInfo(word)
-
+    let wordInfo = getWordInfo(wordId)
+    let word = wordInfo.word.TheWord
     let wordDefHtml = ``
     for (let i in wordInfo.wordDef) {
-        wordDefHtml += `<br>
+        wordDefHtml += `
                        <div> ${parseInt(i) + 1}. ${wordInfo.wordDef[i].ChiDefinition}</div>
                         <br>`
 

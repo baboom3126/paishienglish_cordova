@@ -56,9 +56,9 @@ let nextCard = function (index) {
 }
 
 
-let getCardHtmlForMode1ByWord = function (word) {
-    let wordInfo = getWordInfo(word)
-
+let getCardHtmlForMode1ByWord = function (wordId) {
+    let wordInfo = getWordInfo(wordId)
+    let word = wordInfo.word.TheWord
     let wordDefHtml = ``
     for (let i in wordInfo.wordDef) {
         wordDefHtml += `
