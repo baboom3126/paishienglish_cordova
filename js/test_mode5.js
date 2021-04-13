@@ -139,9 +139,10 @@ let init_test = function () {
                 break
             }
             sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
-                            <br>
+                               <br>
                             <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
                             <br><br>
+
                         `
         }
         if (sentenceHtml.includes(currentWordInfo.word.TheWord)) {
@@ -185,9 +186,9 @@ let next_word = function () {
                 break
             }
             sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
-                            <br><br>
-                            <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
                             <br>
+                            <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
+                            <br><br>
                         `
         }
 
