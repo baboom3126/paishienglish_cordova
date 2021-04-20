@@ -23,26 +23,27 @@ $(document).ready(function () {
             }, data: JSON.stringify(postData)
         }
 
-        $.ajax(settings).done(function (response) {
-            let serverVersion = response.version
-            let localVersion = JSON.parse(localStorage.getItem('version')).version
-            if (serverVersion != localVersion) {
+        $.ajax(settings).done(function (response, status) {
+            if (response.code != 500) {
+                let serverVersion = response.version
+                let localVersion = JSON.parse(localStorage.getItem('version')).version
+                if (serverVersion != localVersion) {
 
-                Swal.fire({
-                    title: '有最新資料可下載',
-                    showDenyButton: true,
-                    showCancelButton: false,
-                    confirmButtonText: `下載`,
-                    denyButtonText: `取消`,
-                }).then((result) => {
-                    console.log(result)
-                    if (result.isConfirmed) {
-                        downloadAllData()
+                    Swal.fire({
+                        title: '有最新資料可下載',
+                        showDenyButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: `下載`,
+                        denyButtonText: `取消`,
+                    }).then((result) => {
+                        console.log(result)
+                        if (result.isConfirmed) {
+                            downloadAllData()
 
-                    }
-                })
+                        }
+                    })
+                }
             }
-
         })
 
 

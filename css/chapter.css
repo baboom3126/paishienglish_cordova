@@ -45,61 +45,67 @@
     horiz-align: center;
     font-size: 26px;
 }
-.back_card_info{
+
+.back_card_info {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-.back_card_word_title{
+.back_card_word_title {
     color: #7FA8E6;
     /*padding-left: 14px;*/
     padding-right: 25px;
     padding-top: 17px;
     padding-bottom: 8px;
     font-size: 26px;
-    border-bottom:1px solid #E1F2FF;
+    border-bottom: 1px solid #E1F2FF;
     margin-bottom: 10px;
 }
 
 
-.back_card_word_speech{
+.back_card_word_speech {
     display: inline-block;
     color: #E25A53;
     font-size: 14px;
     padding-left: 10px;
 }
 
-.back_card_word_def{
+.back_card_word_block {
     color: #707070;
-    border-bottom:1px solid #E1F2FF;
+    border-bottom: 1px solid #E1F2FF;
     margin-bottom: 10px;
 }
 
-.back_card_word_sen{
+.back_card_word_sen {
     color: #707070;
 
 }
 
 
-.back_card_word_sen_eng{
+.back_card_word_sen_eng {
     color: #7FA8E6;
 }
 
-.back_card_word_def_chi{
+.back_card_word_def_chi {
     color: #707070;
 
 }
 
-.div_previous_word{
+.div_previous_word {
     position: absolute;
     z-index: 20;
     top: 47%;
-    left:2%;
+    left: 2%;
 }
 
-.div_next_word{
+.div_next_word {
     position: absolute;
     z-index: 20;
     top: 47%;
-    right:2%;
+    right: 2%;
+}
+
+.word_highlight {
+    font-weight: bold;
+    color: #E25A53;
 }

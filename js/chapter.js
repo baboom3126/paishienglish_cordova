@@ -29,16 +29,23 @@ $(document).ready(function () {
 })
 
 var showWordList = function (data) {
-    var wordIdAndNamePair = {}
-    for(let i of JSON.parse(localStorage.getItem('word'))){
-        wordIdAndNamePair[i.WordId] = i.TheWord
+
+    var wordIdAndNamepair = {}
+    var wordJSON = JSON.parse(localStorage.getItem('word'))
+    for (let i of data) {
+        wordJSON.find(element => {
+            if (element.WordId == i.WordId) {
+                wordIdAndNamepair[i.WordId] = element.TheWord
+            }
+        })
     }
+    console.log(wordIdAndNamepair)
     var appendHtml = ``
     for (let i in data) {
         appendHtml += `    <div class="row div_word_row" onclick="javascript:show_word('${data[i].WordId}')">
                             <div class="col s10">
                                 <div class="">
-                                ${wordIdAndNamePair[data[i].WordId]}
+                                ${wordIdAndNamepair[data[i].WordId]}
                                 </div>
 
                             </div>
@@ -56,39 +63,53 @@ var showWordList = function (data) {
 
 var show_word = function (wordId) {
     $('body').css('overflow-y', 'hidden')
-    var wordInfo = JSON.parse(localStorage.getItem('word')).find(function (item, index, array) {
+    var wordInfo = JSON.parse(localStorage.getItem('word')).filter(function (item, index, array) {
         return item.WordId == wordId
     })
 
-    var word = wordInfo.TheWord
+    var word_theWord = wordInfo[0].TheWord
+    var word_audioPath = wordInfo[0].AudioPath
+    var word_remarks = wordInfo[0].Remarks
 
+    let wordInfo_filter_by_wordDef = {}
 
-    if (wordInfo.AudioPath != "") {
-        $('#audio_source').attr('src', wordInfo.AudioPath)
+    for (let i in wordInfo) {
+        if (!wordInfo_filter_by_wordDef[wordInfo[i].WordDefId]) {
+            wordInfo_filter_by_wordDef[wordInfo[i].WordDefId] = []
+            wordInfo_filter_by_wordDef[wordInfo[i].WordDefId].push(wordInfo[i])
+        } else {
+            wordInfo_filter_by_wordDef[wordInfo[i].WordDefId].push(wordInfo[i])
+        }
+    }
+
+    if (word_audioPath != "null") {
+        $('#audio_source').attr('src', word_audioPath)
         audio_word.load()
         audio_word.play()
     }
-    var wordSen = JSON.parse(localStorage.getItem('wordSen')).filter(function (item, index, array) {
-        return item.WordId == wordId
-    })
+    var appendHtmlForWordInfo = `<div class="back_card_word_title">${word_theWord}</div>`
 
-    var wordDef = JSON.parse(localStorage.getItem('wordDef')).filter(function (item, index, array) {
-        return item.WordId == wordId
-    })
-    var appendHtmlForWordInfo = `<div class="back_card_word_title">${word}<div class="back_card_word_speech">${wordInfo.Speech}</div></div>`
-    var appendHtmlForWordSen = `<div class="back_card_word_sen"><div style="color: #707070;font-weight: 600">例句</div>`
-    var appendHtmlForWordDef = `<div class="back_card_word_def"><div style="color: #707070;font-weight: 600">解釋</div>`
-
-
-    for (let i in wordDef) {
-        appendHtmlForWordDef += `<div class="back_card_word_def_chi"> ${parseInt(i) + 1}. ${wordDef[i].ChiDefinition}</div><br>`
+    ///
+    let appendHtmlForWordBlocks = ``
+    for (let i of Object.keys(wordInfo_filter_by_wordDef)) {
+        appendHtmlForWordBlocks += `<div class="back_card_word_block">`
+        appendHtmlForWordBlocks += `<div>解釋</div><div><span>${wordInfo_filter_by_wordDef[i][0].Speech === null ? '' : wordInfo_filter_by_wordDef[i][0].Speech} </span>${wordInfo_filter_by_wordDef[i][0].ChiDefinition}</div><br><div>例句</div>`
+        let counter = 1
+        for (let j of wordInfo_filter_by_wordDef[i]) {
+            ///for sentences
+            if (j.EngSentence||j.ChiSentence) {
+                appendHtmlForWordBlocks += `<div class="back_card_word_sen_eng">${counter}. ${j.EngSentence}</div>
+                                        <div class="back_card_word_def_chi">${j.ChiSentence}</div><br>
+                                        `
+                counter = counter + 1
+            }
+        }
+        appendHtmlForWordBlocks += `</div>`
     }
-    appendHtmlForWordDef += `</div>`
 
-    for (let i in wordSen) {
-        appendHtmlForWordSen += `<div class="back_card_word_sen_eng"> ${parseInt(i) + 1}. ${wordSen[i].EngSentence.replace(word, '<span style="color:#E25A53">' + word + '</span>')}</div>${wordSen[i].ChiSentence}<br><br>`
-    }
-    appendHtmlForWordSen += `</div>`
+    appendHtmlForWordBlocks = appendHtmlForWordBlocks.replaceAll(word_theWord, '<span class="word_highlight">' + word_theWord + '</span>')
+
+
     let device_height = document.documentElement.clientHeight
 
     $('body').append(`<div id="div_opacity">
@@ -100,7 +121,7 @@ var show_word = function (wordId) {
                                     <div class="flipper">
                                         <div class="front div-deck-card align-middle" style="height:${device_height * 0.7}px;">
                                             <div style="top:42%;position:relative;text-align: center;color: #7FA8E6;font-size: 26px;">
-                                                ${word}<br><div style="font-size: 14px;">adj.</div>
+                                                ${word_theWord}<br><div style="font-size: 14px;">${wordInfo[0].Speech === null ? '' : wordInfo[0].Speech}</div>
                                             </div>
 
                                         </div>
@@ -109,8 +130,7 @@ var show_word = function (wordId) {
                                                 <div class="back_card_info">
                                                 
                                                 ${appendHtmlForWordInfo}
-                                                ${appendHtmlForWordDef}
-                                                ${appendHtmlForWordSen}
+                                                ${appendHtmlForWordBlocks}
                                                 </div>
                                             </div>
                                         </div>
@@ -139,7 +159,7 @@ var show_previous_word = function (word) {
     if (wordIndex > 0) {
         $('#div_opacity').remove()
         show_word(wordListArray[wordIndex - 1])
-    }else{
+    } else {
         alert('前面沒有單字了')
     }
 }
@@ -149,15 +169,15 @@ var show_next_word = function (word) {
         return element == word
     })
 
-    if (wordIndex < wordListArray.length-1) {
+    if (wordIndex < wordListArray.length - 1) {
         $('#div_opacity').remove()
         show_word(wordListArray[wordIndex + 1])
-    }else{
+    } else {
         alert('後面沒有單字了')
     }
 }
 
-var page_go_back = function (){
+var page_go_back = function () {
     window.history.back();
 
 }

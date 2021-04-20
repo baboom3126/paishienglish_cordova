@@ -135,3 +135,31 @@ html, body {
 .span_fontLarge {
     font-size: large;
 }
+
+
+
+.word_highlight {
+    font-weight: bold;
+    color: #E25A53;
+}
+
+.back_card_word_block {
+    color: #707070;
+    border-bottom: 1px solid #E1F2FF;
+    margin-bottom: 10px;
+}
+
+.word_hollow{
+    text-decoration: underline;
+    color: #7FA8E6;
+}
+
+.div_mode5_eng{
+    font-size: 20px;
+    color: #7FA8E6;
+}
+
+.div_mode5_chi{
+    font-size: 20px;
+    color: #707070;
+}

@@ -29,23 +29,46 @@ let randomArray = function (arr) {
 }
 
 let getWordInfo = function (wordId) {
-    let wordJSON = JSON.parse(localStorage.getItem('word'))
-    let filterWord = wordJSON.filter(function (item, index) {
+
+    var wordInfo = JSON.parse(localStorage.getItem('word')).filter(function (item, index, array) {
         return item.WordId == wordId
     })
-    let wordSenJSON = JSON.parse(localStorage.getItem('wordSen'))
-    let filterWordSen = wordSenJSON.filter(function (item, index) {
-        return item.WordId == wordId
-    })
-    let wordDefJSON = JSON.parse(localStorage.getItem('wordDef'))
-    let filterWordDef = wordDefJSON.filter(function (item, index) {
-        return item.WordId == wordId
-    })
-    let result = {}
-    result.word = filterWord[0]
-    result.wordSen = filterWordSen
-    result.wordDef = filterWordDef
-    return result
+
+    let wordInfo_filter_by_wordDef = {}
+
+    for (let i in wordInfo) {
+        if (!wordInfo_filter_by_wordDef[wordInfo[i].WordDefId]) {
+            wordInfo_filter_by_wordDef[wordInfo[i].WordDefId] = []
+            wordInfo_filter_by_wordDef[wordInfo[i].WordDefId].push(wordInfo[i])
+        } else {
+            wordInfo_filter_by_wordDef[wordInfo[i].WordDefId].push(wordInfo[i])
+        }
+    }
+    let wordInfoArr = []
+    for (let i of Object.keys(wordInfo_filter_by_wordDef)) {
+        let temp = {}
+        temp.AudioPath = wordInfo_filter_by_wordDef[i][0].AudioPath
+        temp.ChiDefinition = wordInfo_filter_by_wordDef[i][0].ChiDefinition
+        temp.Speech = wordInfo_filter_by_wordDef[i][0].Speech
+        temp.TheWord = wordInfo_filter_by_wordDef[i][0].TheWord
+        temp.WordDefId = i
+        temp.WordId = wordId
+        let wordSen = []
+        for (let j of wordInfo_filter_by_wordDef[i]) {
+            if (j.WordSenId!=null) {
+                let tempSenJSON = {}
+                tempSenJSON.ChiSentence = j.ChiSentence
+                tempSenJSON.EngSentence = j.EngSentence
+                tempSenJSON.WordSenId = j.WordSenId
+                wordSen.push(tempSenJSON)
+            }
+        }
+        temp.wordSen = wordSen
+        wordInfoArr.push(temp)
+    }
+
+    return wordInfoArr
+
 }
 
 
@@ -89,3 +112,6 @@ let back_to_index = function () {
     location.href = './index.html'
 }
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}

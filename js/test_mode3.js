@@ -57,43 +57,35 @@ let nextCard = function (index) {
 
 let getCardHtmlForMode1ByWord = function (wordId) {
     let wordInfo = getWordInfo(wordId)
-    let word = wordInfo.word.TheWord
-    let front_card_html = ``
-    let wordDefHtml = ``
-    for (let i in wordInfo.wordDef) {
-        wordDefHtml += `
-                       <div> ${parseInt(i) + 1}. ${wordInfo.wordDef[i].ChiDefinition}</div>
-                       <br>
-                        `
+    console.log(wordInfo)
+
+    let word = wordInfo[0].TheWord
+
+    let appendDetailHtml = ``
+    for (let i of wordInfo) {
+        appendDetailHtml += `<div class="back_card_word_block"><b><span style="color:grey;">解釋</span><p><span style="color: green;">${i.Speech === null ? '' : i.Speech} </span> ${i.ChiDefinition}</b> </p><b><span style="color:grey;">例句</span></b>`
+        let counter = 1
+        for (let j of i.wordSen) {
+            appendDetailHtml += `<p style="color: #7FA8E6;">${counter}. ${j.EngSentence}</p><p >${j.ChiSentence}</p>`
+            counter = counter + 1
+        }
+        appendDetailHtml += `</div>`
     }
 
-    let wordSenHtml = ``
-    for (let i in wordInfo.wordSen) {
-        wordSenHtml += `
-                        <div style="color: #7FA8E6;"> ${parseInt(i) + 1}. ${wordInfo.wordSen[i].EngSentence}</div>
-                        <div>${wordInfo.wordSen[i].ChiSentence}</div>
-                        <br>
-
-        `
-
-    }
-    wordSenHtml = wordSenHtml.replaceAll(word, '<font color="E25A53">' + word + '</font>')
-
-    ////only get the first sentence as example
-    if (wordInfo.wordSen[0] === undefined) {
-        front_card_html += `
-        <div style="color: #7FA8E6;"> 單字 ${word} 沒有英文例句</div>
-        <br>
-        `
-    } else {
-        front_card_html += `
-        <div style="color: #7FA8E6;"> ${wordInfo.wordSen[0].EngSentence}</div>
-        <br>
-        `
+    appendDetailHtml = appendDetailHtml.replaceAll(word, '<span class="word_highlight">' + word + '</span>')
+///
+    let sentenceArray = []
+    for (let i of wordInfo) {
+        if (i.wordSen.length == 0) {
+            sentenceArray.push('<span class="word_highlight">'+word+'</span><br>此單字沒有例句')
+        } else {
+            for (let j of i.wordSen) {
+                sentenceArray.push(j.EngSentence.replaceAll(word, '<span class="word_highlight">' + word + '</span>'))
+            }
+        }
     }
 
-
-    front_card_html = front_card_html.replaceAll(word, '<font color="E25A53">' + word + '</font>')
+    let front_card_html = sentenceArray[getRandomInt(sentenceArray.length)]
 
 
     let cardHtml = `
@@ -128,24 +120,17 @@ let getCardHtmlForMode1ByWord = function (wordId) {
                         </div>
                         <div class="row" style="height: 15%;border-bottom: 1px solid #E1F2FF;">
                             <div class="col s10">
-                                <span class="test_card_back_title">${word}</span><span
-                                    style="color: #E25A53;font-size: 14px;margin-left: 10px;">${wordInfo.word.Speech}</span>
+                                <span class="test_card_back_title">${word}</span>
                             </div>
                             <div class="col s2">
                                 <img src="./img/main/iconSTAR@3x.png" height="20" style="margin-top: 10px;">
                             </div>
                         </div>
                         <div class="row" style="margin-top: 5px;">
-                            <div class="col s12"
-                                 style="font-size: 14px;color: #707070;border-bottom: 1px solid #E1F2FF;padding-bottom: 5px;">
-                                <span style="font-weight: bold;">解釋</span>
-                                ${wordDefHtml}
+                            <div class="col s12" style="font-size: 14px;color: #707070;border-bottom: 1px solid #E1F2FF;padding-bottom: 5px;">
+                                ${appendDetailHtml}
                             </div>
-                            <div class="col s12" style="font-size: 14px;color: #707070;margin-top: 5px;">
-                                <span style="font-weight: bold;">例句</span>
-                                ${wordSenHtml}
 
-                            </div>
                         </div>
                     </div>
                 </div>

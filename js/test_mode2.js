@@ -63,30 +63,30 @@ let getCardHtmlForMode2ByWord = function (wordId) {
     let front_card_html = ``
 
     let wordInfo = getWordInfo(wordId)
-    let word = wordInfo.word.TheWord
-    let wordDefHtml = ``
-    for (let i in wordInfo.wordDef) {
-        wordDefHtml += `
-                       <div> ${parseInt(i) + 1}. ${wordInfo.wordDef[i].ChiDefinition}</div>
-                        <br>`
+    console.log(wordInfo)
+    let word = wordInfo[0].TheWord
 
-        front_card_html += `
-                            <div> ${wordInfo.wordDef[i].ChiDefinition}</div>
-                            `
+
+    for(let i of wordInfo){
+        front_card_html += `<div>${i.ChiDefinition}</div>`
     }
 
-    let wordSenHtml = ``
-    for (let i in wordInfo.wordSen) {
-        wordSenHtml += `
-                        <div style="color: #7FA8E6;"> ${parseInt(i) + 1}. ${wordInfo.wordSen[i].EngSentence}</div>
-                        <div>${wordInfo.wordSen[i].ChiSentence}</div>
-                        <br>
 
-        `
 
+
+    let appendDetailHtml = ``
+    for (let i of wordInfo) {
+        appendDetailHtml += `<div class="back_card_word_block"><b><span style="color:grey;">解釋</span><p><span style="color: green;">${i.Speech===null?'':i.Speech} </span> ${i.ChiDefinition}</b> </p><b><span style="color:grey;">例句</span></b>`
+        let counter = 1
+        for (let j of i.wordSen) {
+            appendDetailHtml += `<p style="color: #7FA8E6;">${counter}. ${j.EngSentence}</p><p >${j.ChiSentence}</p>`
+            counter = counter + 1
+        }
+        appendDetailHtml += `</div>`
     }
 
-    wordSenHtml = wordSenHtml.replaceAll(word,'<font color="E25A53">'+word+'</font>')
+    appendDetailHtml = appendDetailHtml.replaceAll(word,'<span class="word_highlight">'+word+'</span>')
+
 
 
     let cardHtml = `
@@ -121,24 +121,17 @@ let getCardHtmlForMode2ByWord = function (wordId) {
                         </div>
                         <div class="row" style="height: 15%;border-bottom: 1px solid #E1F2FF;">
                             <div class="col s10">
-                                <span class="test_card_back_title">${word}</span><span
-                                    style="color: #E25A53;font-size: 14px;margin-left: 10px;">${wordInfo.word.Speech}</span>
+                                <span class="test_card_back_title">${word}</span>
                             </div>
                             <div class="col s2">
                                 <img src="./img/main/iconSTAR@3x.png" height="20" style="margin-top: 10px;">
                             </div>
                         </div>
                         <div class="row" style="margin-top: 5px;">
-                            <div class="col s12"
-                                 style="font-size: 14px;color: #707070;border-bottom: 1px solid #E1F2FF;padding-bottom: 5px;">
-                                <span style="font-weight: bold;">解釋</span>
-                                ${wordDefHtml}
+                            <div class="col s12" style="font-size: 14px;color: #707070;border-bottom: 1px solid #E1F2FF;padding-bottom: 5px;">
+                                ${appendDetailHtml}
                             </div>
-                            <div class="col s12" style="font-size: 14px;color: #707070;margin-top: 5px;">
-                                <span style="font-weight: bold;">例句</span>
-                                ${wordSenHtml}
 
-                            </div>
                         </div>
                     </div>
                 </div>

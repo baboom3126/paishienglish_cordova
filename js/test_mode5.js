@@ -64,7 +64,7 @@ $(document).ready(function () {
             show_wordDetail()
             $('#span_correct_or_wrong').show()
 
-            if (answer == getWordInfo(testWords[testCount]).word.TheWord.toLowerCase()) {
+            if (answer == getWordInfo(testWords[testCount])[0].TheWord.toLowerCase()) {
 
 
                 correct.push(testWords[testCount])
@@ -126,38 +126,26 @@ let init_test = function () {
     $('#test_progressCounter').text((testCount + 1) + '/' + testWords.length)
     $('#test_progressBar').css('width', ((testCount + 1) / testWords.length) * 100 + '%')
 
-    let currentWordInfo = getWordInfo(testWords[0])
+    let wordInfo = getWordInfo(testWords[0])
+    let word = wordInfo[0].TheWord
 
-    let sentenceHtml = ``
-    if (currentWordInfo.wordSen.length == 0) {
-        sentenceHtml = `<div><span style="color: #7FA8E6;">此單字沒有例句</span></div>`
-        $('#input_test_mode4_answer').val(currentWordInfo.word.TheWord)
 
-    } else {
-        for (let i in currentWordInfo.wordSen) {
-            if (parseInt(i) > 1) {
-                break
-            }
-            sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
-                               <br>
-                            <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
-                            <br><br>
-
-                        `
-        }
-        if (sentenceHtml.includes(currentWordInfo.word.TheWord)) {
-            sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord, '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
-        } else if (sentenceHtml.includes(currentWordInfo.word.TheWord.slice(0, -1))) {
-            sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord.slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
-
+    let sentenceArray = []
+    for(let i of wordInfo){
+        for(let j of i.wordSen){
+            sentenceArray.push({chiSen:j.ChiSentence,engSen:j.EngSentence.replaceAll(word,'<span class="word_hollow">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')})
         }
     }
 
-    $('#div_sentence').html(sentenceHtml)
+    let randomIndex = getRandomInt(sentenceArray.length)
+    let front_card_html = `<div class="div_mode5_eng">${sentenceArray[randomIndex].engSen}</div><br><div class="div_mode5_chi">${sentenceArray[randomIndex].chiSen}</div>`
 
 
-    if (currentWordInfo.word.AudioPath != "") {
-        $('#audio_source').attr('src', currentWordInfo.word.AudioPath)
+    $('#div_sentence').html(front_card_html)
+
+
+    if (wordInfo[0].AudioPath != "") {
+        $('#audio_source').attr('src', wordInfo[0].AudioPath)
 
     } else {
 
@@ -169,37 +157,25 @@ let init_test = function () {
 
 
 let next_word = function () {
-    let currentWordInfo = getWordInfo(testWords[testCount])
+    let wordInfo = getWordInfo(testWords[testCount])
+    let word = wordInfo[0].TheWord
 
 
     $('#test_card_for_mode45_back').html('')
     $('#test_card_for_mode45').show()
 
-
-    let sentenceHtml = ``
-    if (currentWordInfo.wordSen.length == 0) {
-        sentenceHtml = `<div><span style="color: #7FA8E6;">此單字沒有例句</span></div>`
-        $('#input_test_mode4_answer').val(currentWordInfo.word.TheWord)
-    } else {
-        for (let i in currentWordInfo.wordSen) {
-            if (parseInt(i) > 1) {
-                break
-            }
-            sentenceHtml += `   <span style="color: #7FA8E6;">${currentWordInfo.wordSen[i].EngSentence}</span>
-                            <br>
-                            <span style="color: #707070;">${currentWordInfo.wordSen[i].ChiSentence}</span>
-                            <br><br>
-                        `
-        }
-
-        if (sentenceHtml.includes(currentWordInfo.word.TheWord)) {
-            sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord, '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
-        } else if (sentenceHtml.includes(currentWordInfo.word.TheWord.slice(0, -1))) {
-            sentenceHtml = sentenceHtml.replaceAll(currentWordInfo.word.TheWord.slice(0, -1), '<span style="text-decoration: underline;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
-
+    let sentenceArray = []
+    for(let i of wordInfo){
+        for(let j of i.wordSen){
+            sentenceArray.push({chiSen:j.ChiSentence,engSen:j.EngSentence.replaceAll(word,'<span class="word_hollow">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')})
         }
     }
-    $('#div_sentence').html(sentenceHtml)
+
+    let randomIndex = getRandomInt(sentenceArray.length)
+    let front_card_html = `<div class="div_mode5_eng">${sentenceArray[randomIndex].engSen}</div><br><div class="div_mode5_chi">${sentenceArray[randomIndex].chiSen}</div>`
+
+
+    $('#div_sentence').html(front_card_html)
 
 
     $('#test_card_for_mode45_back').hide()
@@ -208,22 +184,22 @@ let next_word = function () {
 
 let show_wordDetail = function () {
 
-    let currentWordInfo = getWordInfo(testWords[testCount])
-    let wordDefHtml = ``
-    let wordSenHtml = ``
-
-    for (let i in currentWordInfo.wordDef) {
-        wordDefHtml += `<div> ${parseInt(i) + 1}. ${currentWordInfo.wordDef[i].ChiDefinition}</div><br>`
+    let wordInfo = getWordInfo(testWords[testCount])
+    ///
+    let word = wordInfo[0].TheWord
+    let appendDetailHtml = ``
+    for (let i of wordInfo) {
+        appendDetailHtml += `<div class="back_card_word_block"><b><span style="color:grey;">解釋</span><p><span style="color: green;">${i.Speech===null?'':i.Speech} </span> ${i.ChiDefinition}</b> </p><b><span style="color:grey;">例句</span></b>`
+        let counter = 1
+        for (let j of i.wordSen) {
+            appendDetailHtml += `<p style="color: #7FA8E6;">${counter}. ${j.EngSentence}</p><p >${j.ChiSentence}</p>`
+            counter = counter + 1
+        }
+        appendDetailHtml += `</div>`
     }
 
-    for (let i in currentWordInfo.wordSen) {
-        wordSenHtml += `<div style="color: #7FA8E6;"> ${parseInt(i) + 1}. ${currentWordInfo.wordSen[i].EngSentence}</div>
-                        <div>${currentWordInfo.wordSen[i].ChiSentence}</div>
-                        <br>`
-    }
-
-    wordSenHtml = wordSenHtml.replaceAll(testWords[testCount], '<font color="E25A53">' + testWords[testCount] + '</font>')
-
+    appendDetailHtml = appendDetailHtml.replaceAll(word,'<span class="word_highlight">'+word+'</span>')
+////
     $('#test_card_for_mode45').hide()
 
     $('#test_card_for_mode45_back').html(`
@@ -233,7 +209,7 @@ let show_wordDetail = function () {
                         </div>
                         <div class="row" style="height: 15%;border-bottom: 1px solid #E1F2FF;">
                             <div class="col s10">
-                                <span class="test_card_back_title">${currentWordInfo.word.TheWord}</span><span style="color: #E25A53;font-size: 14px;margin-left: 10px;">${currentWordInfo.word.Speech}</span>
+                                <span class="test_card_back_title">${wordInfo[0].TheWord}</span>
                             </div>
                             <div class="col s2">
                                 <img src="./img/test/iconSOUNDON@3x.png" height="20" style="margin-top: 10px;">
@@ -241,19 +217,11 @@ let show_wordDetail = function () {
                         </div>
                         <div class="row" style="margin-top: 5px;">
                             <div class="col s12" style="font-size: 14px;color: #707070;border-bottom: 1px solid #E1F2FF;padding-bottom: 5px;">
-                                <span style="font-weight: bold;">解釋</span>
                                 
-                       ${wordDefHtml}
+                       ${appendDetailHtml}
                         
                             </div>
-                            <div class="col s12" style="font-size: 14px;color: #707070;margin-top: 5px;">
-                                <span style="font-weight: bold;">例句</span>
-                                
-                        ${wordSenHtml}
 
-        
-
-                            </div>
                         </div>
                     </div>
     

@@ -5,6 +5,31 @@ let correct = []
 let wrong = []
 $(document).ready(function () {
 
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://www.paishienglish.com/app/login",
+        "method": "POST",
+        "headers": {
+            "content-type": "application/json",
+            "cache-control": "no-cache",
+        }
+    }
+
+    $.ajax(settings).done(function (response,status) {
+        console.log(status)
+    }).fail(function (response,status){
+        console.log(status)
+        if(status=="error"){
+            $('#btn_start').text('返回首頁')
+            $('#btn_start').attr('onclick','javascript:location.href="./index.html"')
+            alert('此測驗需網路連線')
+        }
+
+    })
+
+
+
     $('#div_row1').css('height', deviceHeight / 10 * 1 + 'px')
     $('#div_row2').css('height', deviceHeight / 10 * 1 + 'px')
     $('#div_row3').css('height', deviceHeight / 10 * 5 + 'px')
@@ -61,7 +86,7 @@ $(document).ready(function () {
             show_wordDetail()
             $('#span_correct_or_wrong').show()
 
-            if (answer == getWordInfo(testWords[testCount]).word.TheWord.toLowerCase()) {
+            if (answer == getWordInfo(testWords[testCount])[0].TheWord.toLowerCase()) {
 
 
                 correct.push(testWords[testCount])
@@ -127,13 +152,14 @@ let init_test = function () {
 
     let currentWordInfo = getWordInfo(testWords[0])
 
-    if (currentWordInfo.word.AudioPath != "") {
-        $('#audio_source').attr('src', currentWordInfo.word.AudioPath)
+    if (currentWordInfo[0].AudioPath != "null") {
+        $('#div_no_audio').hide()
+        $('#audio_source').attr('src', currentWordInfo[0].AudioPath)
         audio_word.load()
         audio_word.play()
     } else {
-        alert('這個單字暫無音擋')
-        next_word()
+        $('#input_test_mode4_answer').val(currentWordInfo[0].TheWord)
+        $('#div_no_audio').show()
 
     }
 
@@ -143,35 +169,44 @@ let init_test = function () {
 
 let next_word = function () {
     let currentWordInfo = getWordInfo(testWords[testCount])
-    $('#audio_source').attr('src', currentWordInfo.word.AudioPath)
-    audio_word.load()
-    audio_word.play()
 
     $('#test_card_for_mode45_back').html('')
     $('#test_card_for_mode45').show()
     $('#test_card_for_mode45_back').hide()
 
+    if (currentWordInfo[0].AudioPath != "null") {
+        $('#div_no_audio').hide()
+        $('#audio_source').attr('src', currentWordInfo[0].AudioPath)
+        audio_word.load()
+        audio_word.play()
+    } else {
+        $('#input_test_mode4_answer').val(currentWordInfo[0].TheWord)
+        $('#div_no_audio').show()
+    }
+
+
+
 }
 
 let show_wordDetail = function (){
 
-    let currentWordInfo = getWordInfo(testWords[testCount])
-    let word = currentWordInfo.word.TheWord
-    let wordDefHtml = ``
-    let wordSenHtml = ``
+    let wordInfo = getWordInfo(testWords[testCount])
+    ////
+    let word = wordInfo[0].TheWord
 
-    for(let i in currentWordInfo.wordDef){
-        wordDefHtml += `<div> ${parseInt(i)+1}. ${currentWordInfo.wordDef[i].ChiDefinition}</div><br>`
+    let appendDetailHtml = ``
+    for (let i of wordInfo) {
+        appendDetailHtml += `<div class="back_card_word_block"><b><span style="color:grey;">解釋</span><p><span style="color: green;">${i.Speech===null?'':i.Speech} </span> ${i.ChiDefinition}</b> </p><b><span style="color:grey;">例句</span></b>`
+        let counter = 1
+        for (let j of i.wordSen) {
+            appendDetailHtml += `<p style="color: #7FA8E6;">${counter}. ${j.EngSentence}</p><p >${j.ChiSentence}</p>`
+            counter = counter + 1
+        }
+        appendDetailHtml += `</div>`
     }
 
-    for(let i in currentWordInfo.wordSen){
-        wordSenHtml += `<div style="color: #7FA8E6;"> ${parseInt(i)+1}. ${currentWordInfo.wordSen[i].EngSentence}</div>
-                        <div>${currentWordInfo.wordSen[i].ChiSentence}</div>
-                        <br>`
-    }
-
-    wordSenHtml = wordSenHtml.replaceAll(testWords[testCount],'<font color="E25A53">'+testWords[testCount]+'</font>')
-
+    appendDetailHtml = appendDetailHtml.replaceAll(word,'<span class="word_highlight">'+word+'</span>')
+/////
     $('#test_card_for_mode45').hide()
 
     $('#test_card_for_mode45_back').html(`
@@ -181,7 +216,7 @@ let show_wordDetail = function (){
                         </div>
                         <div class="row" style="height: 15%;border-bottom: 1px solid #E1F2FF;">
                             <div class="col s10">
-                                <span class="test_card_back_title">${word}</span><span style="color: #E25A53;font-size: 14px;margin-left: 10px;">${currentWordInfo.word.Speech}</span>
+                                <span class="test_card_back_title">${word}</span>
                             </div>
                             <div class="col s2">
                                 <img src="./img/test/iconSOUNDON@3x.png" height="20" style="margin-top: 10px;">
@@ -189,19 +224,12 @@ let show_wordDetail = function (){
                         </div>
                         <div class="row" style="margin-top: 5px;">
                             <div class="col s12" style="font-size: 14px;color: #707070;border-bottom: 1px solid #E1F2FF;padding-bottom: 5px;">
-                                <span style="font-weight: bold;">解釋</span>
                                 
-                       ${wordDefHtml}
+                                
+                            ${appendDetailHtml}
                         
                             </div>
-                            <div class="col s12" style="font-size: 14px;color: #707070;margin-top: 5px;">
-                                <span style="font-weight: bold;">例句</span>
-                                
-                        ${wordSenHtml}
 
-        
-
-                            </div>
                         </div>
                     </div>
     
