@@ -223,7 +223,7 @@ let show_wordDetail = function (){
                             </div>
                         </div>
                         <div class="row" style="margin-top: 5px;">
-                            <div class="col s12" style="font-size: 14px;color: #707070;border-bottom: 1px solid #E1F2FF;padding-bottom: 5px;">
+                            <div class="col s12" style="font-size: 14px;color: #707070;padding-bottom: 5px;">
                                 
                                 
                             ${appendDetailHtml}

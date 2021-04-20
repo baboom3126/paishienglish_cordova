@@ -131,9 +131,17 @@ let init_test = function () {
 
 
     let sentenceArray = []
-    for(let i of wordInfo){
-        for(let j of i.wordSen){
-            sentenceArray.push({chiSen:j.ChiSentence,engSen:j.EngSentence.replaceAll(word,'<span class="word_hollow">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')})
+    for (let i of wordInfo) {
+        if (i.wordSen.length == 0) {
+            sentenceArray.push({engSen: '<span class="word_highlight">'+word+'</span>', chiSen: '此單字沒有例句'})
+            $('#input_test_mode4_answer').val(word)
+        } else {
+            for (let j of i.wordSen) {
+                sentenceArray.push({
+                    chiSen: j.ChiSentence,
+                    engSen: j.EngSentence.replaceAll(word, '<span class="word_hollow">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+                })
+            }
         }
     }
 
@@ -165,9 +173,17 @@ let next_word = function () {
     $('#test_card_for_mode45').show()
 
     let sentenceArray = []
-    for(let i of wordInfo){
-        for(let j of i.wordSen){
-            sentenceArray.push({chiSen:j.ChiSentence,engSen:j.EngSentence.replaceAll(word,'<span class="word_hollow">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')})
+    for (let i of wordInfo) {
+        if (i.wordSen.length == 0) {
+            sentenceArray.push({engSen: '<span class="word_highlight">'+word+'</span>', chiSen: '此單字沒有例句'})
+            $('#input_test_mode4_answer').val(word)
+        } else {
+            for (let j of i.wordSen) {
+                sentenceArray.push({
+                    chiSen: j.ChiSentence,
+                    engSen: j.EngSentence.replaceAll(word, '<span class="word_hollow">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>')
+                })
+            }
         }
     }
 
@@ -189,7 +205,7 @@ let show_wordDetail = function () {
     let word = wordInfo[0].TheWord
     let appendDetailHtml = ``
     for (let i of wordInfo) {
-        appendDetailHtml += `<div class="back_card_word_block"><b><span style="color:grey;">解釋</span><p><span style="color: green;">${i.Speech===null?'':i.Speech} </span> ${i.ChiDefinition}</b> </p><b><span style="color:grey;">例句</span></b>`
+        appendDetailHtml += `<div class="back_card_word_block"><b><span style="color:grey;">解釋</span><p><span style="color: green;">${i.Speech === null ? '' : i.Speech} </span> ${i.ChiDefinition}</b> </p><b><span style="color:grey;">例句</span></b>`
         let counter = 1
         for (let j of i.wordSen) {
             appendDetailHtml += `<p style="color: #7FA8E6;">${counter}. ${j.EngSentence}</p><p >${j.ChiSentence}</p>`
@@ -198,7 +214,7 @@ let show_wordDetail = function () {
         appendDetailHtml += `</div>`
     }
 
-    appendDetailHtml = appendDetailHtml.replaceAll(word,'<span class="word_highlight">'+word+'</span>')
+    appendDetailHtml = appendDetailHtml.replaceAll(word, '<span class="word_highlight">' + word + '</span>')
 ////
     $('#test_card_for_mode45').hide()
 
@@ -216,7 +232,7 @@ let show_wordDetail = function () {
                             </div>
                         </div>
                         <div class="row" style="margin-top: 5px;">
-                            <div class="col s12" style="font-size: 14px;color: #707070;border-bottom: 1px solid #E1F2FF;padding-bottom: 5px;">
+                            <div class="col s12" style="font-size: 14px;color: #707070;padding-bottom: 5px;">
                                 
                        ${appendDetailHtml}
                         
