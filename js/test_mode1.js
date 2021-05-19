@@ -13,16 +13,18 @@ $(document).ready(function () {
 })
 
 let answer_click = function (status) {
+    let id = testWords[testCount-1]
+    let word = getWordInfo(id)[0].TheWord
 
     switch(status){
         case "good":
-            good.push(testWords[testCount-1])
+            good.push({id:id,word:word})
             break;
         case "normal":
-            normal.push(testWords[testCount-1])
+            normal.push({id:id,word:word})
             break;
         case "bad":
-            bad.push(testWords[testCount-1])
+            bad.push({id:id,word:word})
             break;
     }
 
@@ -34,7 +36,7 @@ let answer_click = function (status) {
         test_result_mode1.bad = bad
         localStorage.setItem("test_result_mode1",JSON.stringify(test_result_mode1))
         $('#div_answers').css('margin-top','15%')
-        $('#div_answers').html('<a href="./test_result_mode1.html" class="btn confirm_button waves-effect">結束測驗</a>')
+        $('#div_answers').html('<a href="./test_result_mode123.html?mode=1" class="btn confirm_button waves-effect">結束測驗</a>')
         console.log('done')
     }else{
         currentWord = testWords[testCount]
