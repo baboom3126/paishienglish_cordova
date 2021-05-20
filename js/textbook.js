@@ -91,9 +91,10 @@ var showDivTextbookInfos = function (data){
         appendHTML+=`    
                         <li>
                             <div class="collapsible-header row">
-                            <div class="col s10">
-                            <i class="fa fa-book" aria-hidden="true"></i>${temp[i][0].TextbookContentName}
-                            </div><div class="col s2"><span class="" >＾</span></div>
+                            <div class="col s1 li_left">
+                                <img style="height: 15px;width: 15px;" src="./img/main/right_arrow.png">
+                            </div>
+                            <div class="col s11 li_right">${temp[i][0].TextbookContentName}</div>
                             </div>
                             <div class="collapsible-body">
                         `

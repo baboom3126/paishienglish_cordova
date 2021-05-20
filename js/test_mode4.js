@@ -91,7 +91,7 @@ $(document).ready(function () {
                 let id = testWords[testCount]
                 let word = getWordInfo(id)[0].TheWord
                 correct.push({id:id,word:word})
-                $('#span_correct_or_wrong').css('color','#7FA8E6')
+                $('#span_correct_or_wrong').css('color','#5F89C7')
                 $('#span_correct_or_wrong').text('答對了')
 
                 // M.toast({html: '正確', displayLength: 1000, classes: 'green'})
@@ -204,7 +204,7 @@ let show_wordDetail = function (){
         appendDetailHtml += `<div class="back_card_word_block"><b><span style="color:grey;">解釋</span><p><span style="color: green;">${i.Speech===null?'':i.Speech} </span> ${i.ChiDefinition}</b> </p><b><span style="color:grey;">例句</span></b>`
         let counter = 1
         for (let j of i.wordSen) {
-            appendDetailHtml += `<p style="color: #7FA8E6;">${counter}. ${j.EngSentence}</p><p >${j.ChiSentence}</p>`
+            appendDetailHtml += `<p style="color: #5F89C7;">${counter}. ${j.EngSentence}</p><p >${j.ChiSentence}</p>`
             counter = counter + 1
         }
         appendDetailHtml += `</div>`

@@ -66,7 +66,7 @@ var show_word = function (wordId) {
                             <div class="flip-container" onclick="this.classList.toggle('hover');" style="top:${device_height * 0.15}px">
                                     <div class="flipper">
                                         <div class="front div-deck-card align-middle" style="height:${device_height * 0.7}px;">
-                                            <div style="top:42%;position:relative;text-align: center;color: #7FA8E6;font-size: 26px;">
+                                            <div style="top:42%;position:relative;text-align: center;color: #5F89C7;font-size: 26px;">
                                                 ${word_theWord}<br><div style="font-size: 14px;">${wordInfo[0].Speech === null ? '' : wordInfo[0].Speech}</div>
                                             </div>
 

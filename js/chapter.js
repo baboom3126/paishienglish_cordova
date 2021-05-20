@@ -11,7 +11,7 @@ var wordListArray = []
 
 $(document).ready(function () {
 
-    $('#div_chapterName').html('<img src="./img/main/iconBACKWARD@3x.png" height="18"> &nbsp' + decodeURIComponent(thisChapter.chapterName))
+    $('#div_chapterName').html('' + decodeURIComponent(thisChapter.chapterName))
     var textbookContentChapterDeck = JSON.parse(localStorage.getItem('textbookContentChapterDeck'))
     if (textbookContentChapterDeck == null) {
 
@@ -51,7 +51,7 @@ var showWordList = function (data) {
                             </div>
                             <div class="col s2">
                                 <div class="div_word_element_right">
-                                    <img src="./img/main/iconSTAR@3x.png" height="16">
+<!--                                    <img src="./img/main/iconSTAR@3x.png" height="16">-->
 <!--                                    <img src="./img/main/iconSTAR_selected@3x.png" height="16">-->
 
                                 </div>
@@ -93,7 +93,12 @@ var show_word = function (wordId) {
     let appendHtmlForWordBlocks = ``
     for (let i of Object.keys(wordInfo_filter_by_wordDef)) {
         appendHtmlForWordBlocks += `<div class="back_card_word_block">`
-        appendHtmlForWordBlocks += `<div>解釋</div><div><span>${wordInfo_filter_by_wordDef[i][0].Speech === null ? '' : wordInfo_filter_by_wordDef[i][0].Speech} </span>${wordInfo_filter_by_wordDef[i][0].ChiDefinition}</div><br><div>例句</div>`
+        appendHtmlForWordBlocks += `<div style="color: #707070;font-weight: 600;">解釋</div>
+                                    <div>
+                                        <span style="color:#E25A53;">[${wordInfo_filter_by_wordDef[i][0].Speech === null ? '' : wordInfo_filter_by_wordDef[i][0].Speech}] </span>
+                                        ${wordInfo_filter_by_wordDef[i][0].ChiDefinition}
+                                    </div>
+                                    <div style="color: #707070;font-weight: 600;">例句</div>`
         let counter = 1
         for (let j of wordInfo_filter_by_wordDef[i]) {
             ///for sentences
@@ -120,8 +125,9 @@ var show_word = function (wordId) {
                             <div class="flip-container" onclick="this.classList.toggle('hover');" style="top:${device_height * 0.15}px">
                                     <div class="flipper">
                                         <div class="front div-deck-card align-middle" style="height:${device_height * 0.7}px;">
-                                            <div style="top:42%;position:relative;text-align: center;color: #7FA8E6;font-size: 26px;">
-                                                ${word_theWord}<br><div style="font-size: 14px;">${wordInfo[0].Speech === null ? '' : wordInfo[0].Speech}</div>
+                                            <div style="top:42%;position:relative;text-align: center;color: #7193C4;font-size: 26px;font-weight: 600 ;">
+                                                ${word_theWord}<br>
+                                                <div style="font-size: 14px;font-weight: normal;color: #E25A53;">${wordInfo[0].Speech === null ? '' : wordInfo[0].Speech}</div>
                                             </div>
 
                                         </div>
@@ -129,8 +135,12 @@ var show_word = function (wordId) {
                                             <div class="row">
                                                 <div class="back_card_info">
                                                 
-                                                ${appendHtmlForWordInfo}
-                                                ${appendHtmlForWordBlocks}
+                                                    ${appendHtmlForWordInfo}
+                                                    ${appendHtmlForWordBlocks}
+                                                
+                                                    <div style="color: #707070;font-weight: 600;padding-bottom: 5px;">單字備註</div>
+                                                    <div class="" style="color: #707070;min-height: 98px;border:1px solid #A4C1ED;border-radius: 10px;padding-top:5px;padding-left: 8px;padding-right: 8px;">${wordInfo[0].Remarks}</div>
+                                                    <br><br><br>
                                                 </div>
                                             </div>
                                         </div>

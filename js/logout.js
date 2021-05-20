@@ -6,7 +6,7 @@ var div_opacity = function () {
     padding-bottom: 65px;
     text-align: center;
     border-radius: 15px;
-    color: #7fa8e6;
+    color: #5F89C7;
     box-shadow: 0px 30px 30px #0000001A;
     ">
 
@@ -15,7 +15,7 @@ var div_opacity = function () {
             </div>
                     <div class="row" style="margin-top: 30px;">
                     <div class="col s1"></div>
-                    <div class="col s4" style="text-align: center;padding:13px;background-color: #7FA8E6;border-radius:4px;" onclick="javascript:btn_logout()">
+                    <div class="col s4" style="text-align: center;padding:13px;background-color: #5F89C7;border-radius:4px;" onclick="javascript:btn_logout()">
                         <a style="color: white;">確認</a>
                     </div>
                     <div class="col s2"></div>

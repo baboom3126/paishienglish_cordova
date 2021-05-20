@@ -99,7 +99,7 @@ let showDivTextbookInfos = function (data) {
                             <div class="collapsible-header">
                                 <label>
                                     <input class="filled-in input_textbookContent" type="checkbox" data="${temp[i][0].TextbookContentId}"/>
-                                    <span>${temp[i][0].TextbookContentName}</span>
+                                    <span style="font-weight: 600;">${temp[i][0].TextbookContentName}</span>
                                 </label>
                                 <span class="arrow_chapter_header"></span>
                             </div>

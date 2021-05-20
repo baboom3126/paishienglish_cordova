@@ -12,7 +12,7 @@
     word-break: break-word;
     border-radius: 10px;
     font: normal normal normal 18px/25px PingFang TC;
-    color: #7FA8E6;
+    color: #5F89C7;
     margin-bottom: 0;
     border:0px;
     background-color: #F1F9FF;
@@ -31,7 +31,7 @@
     height: auto;
     padding-top: 10px;
     padding-bottom: 10px;
-    color: #7FA8E6;
+    color: #5F89C7;
 
 }
 
@@ -39,4 +39,12 @@
     font-size: x-large;
     position: absolute;
     right:35px;
+}
+
+.li_right{
+    font-weight: 600 ;
+    padding-left: 20px;
+}
+.li_left{
+    font-weight: 900;
 }

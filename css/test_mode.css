@@ -12,7 +12,7 @@ html, body {
 }
 
 .determinate {
-    background-color: #7FA8E6 !important;
+    background-color: #5F89C7 !important;
 
 }
 
@@ -42,7 +42,7 @@ html, body {
 }
 
 .test_card_back_title {
-    color: #7FA8E6;
+    color: #5F89C7;
     font-size: 26px;
 
 }
@@ -67,7 +67,7 @@ html, body {
 
 .confirm_button{
     width: 100%;
-    background: #7FA8E6 0% 0% no-repeat padding-box;
+    background: #5F89C7 0% 0% no-repeat padding-box;
     height: 42px;
 }
 
@@ -151,12 +151,12 @@ html, body {
 
 .word_hollow{
     text-decoration: underline;
-    color: #7FA8E6;
+    color: #5F89C7;
 }
 
 .div_mode5_eng{
     font-size: 20px;
-    color: #7FA8E6;
+    color: #5F89C7;
 }
 
 .div_mode5_chi{

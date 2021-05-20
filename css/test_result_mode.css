@@ -4,7 +4,7 @@
     padding-bottom: 25px;
     padding-left: 30px;
     background-color: #F1F9FF;
-    color: #7FA8E6;
+    color: #5F89C7;
     font-size: 20px;
     border-radius: 11px;
     /*font-weight: 250;*/
@@ -19,18 +19,18 @@
 }
 
 .a_in_li_tab{
-    color:#7FA8E6!important;
+    color:#5F89C7!important;
     font-size: 14px;
     font-weight: 600 ;
 }
 
 .tabs .indicator{
-    background-color:#7FA8E6;
+    background-color:#5F89C7;
 }
 
 
 .tabs .tab a:focus{
     background-color:rgba(127, 168, 230,0.1)!important;/* put some background color*/;
-    color:#7FA8E6/* put some font color*/;
+    color:#5F89C7/* put some font color*/;
 }
 /*when active*/

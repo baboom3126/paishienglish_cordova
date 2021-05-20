@@ -165,43 +165,27 @@ var index_show_class_list = function () {
     var classJson = JSON.parse(localStorage.getItem('class'))
     var appendHtmlForClassList = ``
     for (let i in classJson) {
-        if (parseInt(i) % 4 == 0 || parseInt(i) % 4 == 3) {
-            appendHtmlForClassList +=
-                `        <div class="col s6">
-                            <div class="row">
-                                <div class="col s12 m7 ">
-                                    <a href="class.html?classId=${classJson[i].ClassId}&className=${classJson[i].ClassName}" class="card no_shadow" style="margin-bottom: 0px;">
-                                        <div class="div_border_top" style="width: 100%;padding-top: 60px;padding-bottom:60px;background-color: #9FC5FF;">
-                                        </div>
-                                        <div class="div_border_bottom" style="padding: 12px;background-color:#E3EEFF;">
-                                            <div style="color:#7F7F7F;">${classJson[i].ClassName}&nbsp</div>
-                                            <div style="color:#CCCCCC;">${classJson[i].ClassDescription}&nbsp</div>
-                                        </div>
+        appendHtmlForClassList +=
+            `        <div class="col s12">
+                            <a href="class.html?classId=${classJson[i].ClassId}&className=${classJson[i].ClassName}" class="card no_shadow" style="margin-bottom: 0px;">
 
-                                    </a>
+                            <div class="row">
+                                <div class="col s2">
+                                    <div class="class_list_left color_${parseInt(i)%6}">
+                                        ${classJson[i].ClassName.charAt(0)}
+                                    </div>                                
+                                </div>
+                                <div class="col s10">
+                                <div class="class_list_right">
+                                     <div class="list_of_class_name">${classJson[i].ClassName}&nbsp</div>
+                                     <div class="list_of_class_des">${classJson[i].ClassDescription}&nbsp</div>
+                                </div>
                                 </div>
                             </div>
+                            </a>
                         </div>
                 `
-        } else {
-            appendHtmlForClassList +=
-                `        <div class="col s6">
-                            <div class="row">
-                                <div class="col s12 m7 ">
-                                    <a href="class.html?classId=${classJson[i].ClassId}&className=${classJson[i].ClassName}" class="card no_shadow" style="margin-bottom: 0px;">
-                                        <div class="div_border_top" style="width: 100%;padding-top: 60px;padding-bottom:60px;background-color: #E1F2FF;">
-                                        </div>
-                                        <div class="div_border_bottom" style="padding: 12px;background-color:#F6FBFF;">
-                                            <div style="color:#7F7F7F;">${classJson[i].ClassName}&nbsp</div>
-                                            <div style="color:#CCCCCC;">${classJson[i].ClassDescription}&nbsp</div>
-                                        </div>
 
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                `
-        }
     }
     $('#div_classList').html(appendHtmlForClassList)
 }

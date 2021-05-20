@@ -82,7 +82,7 @@ let getCardHtmlForMode2ByWord = function (wordId) {
         appendDetailHtml += `<div class="back_card_word_block"><b><span style="color:grey;">解釋</span><p><span style="color: green;">${i.Speech===null?'':i.Speech} </span> ${i.ChiDefinition}</b> </p><b><span style="color:grey;">例句</span></b>`
         let counter = 1
         for (let j of i.wordSen) {
-            appendDetailHtml += `<p style="color: #7FA8E6;">${counter}. ${j.EngSentence}</p><p >${j.ChiSentence}</p>`
+            appendDetailHtml += `<p style="color: #5F89C7;">${counter}. ${j.EngSentence}</p><p >${j.ChiSentence}</p>`
             counter = counter + 1
         }
         appendDetailHtml += `</div>`
@@ -107,10 +107,10 @@ let getCardHtmlForMode2ByWord = function (wordId) {
                                 <img src="./img/main/iconSTAR@3x.png" height="20" style="margin-top: 10px;">
                             </div>
                         </div>
-                        <div class="row" style="height: 20%;"></div>
+                        <div class="row" style="height: 20%;display: ${front_card_html.length>55?'none':''}"></div>
 
                         <div class="row" style="">
-                            <div class="col s12" style="text-align: center;font-size: 22px;color: #7FA8E6;">
+                            <div class="col s12" style="text-align: center;font-size: 22px;color: #5F89C7;">
                                 ${front_card_html}
                             </div>
 

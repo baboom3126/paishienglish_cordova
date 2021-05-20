@@ -33,24 +33,24 @@ select{
     word-break: break-word;
     border-radius: 10px;
     font: normal normal normal 18px/25px PingFang TC;
-    color: #7FA8E6;
+    color: #5F89C7;
 
     border:0px;
     background-color: #F1F9FF;
 
 }
 span{
-    color: #7FA8E6;
+    color: #5F89C7;
 }
 [type="checkbox"]+span:not(.lever){
     font-size: 18px;
 }
 [type="checkbox"].filled-in:not(:checked)+span:not(.lever):after{
-    border-color: #7FA8E6;
+    border-color: #5F89C7;
 }
 [type="checkbox"].filled-in:checked+span:not(.lever):after{
-    border-color: #7FA8E6;
-    background-color: #7FA8E6;
+    border-color: #5F89C7;
+    background-color: #5F89C7;
 }
 
 
