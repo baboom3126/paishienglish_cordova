@@ -66,8 +66,9 @@ $(document).ready(function () {
 
             if (answer == getWordInfo(testWords[testCount])[0].TheWord.toLowerCase()) {
 
-
-                correct.push(testWords[testCount])
+                let id = testWords[testCount]
+                let word = getWordInfo(id)[0].TheWord
+                correct.push({id:id,word:word})
                 $('#span_correct_or_wrong').css('color', '#5F89C7')
                 $('#span_correct_or_wrong').text('答對了')
 
@@ -76,7 +77,9 @@ $(document).ready(function () {
 
             } else {
 
-                wrong.push(testWords[testCount])
+                let id = testWords[testCount]
+                let word = getWordInfo(id)[0].TheWord
+                correct.push({id:id,word:word})
                 $('#span_correct_or_wrong').css('color', '#E25A53')
                 $('#span_correct_or_wrong').text('答錯了')
 

@@ -267,17 +267,7 @@ let show_word_socre_list_for_45_mode = function (data) {
             legend: {
                 position: "right",
                 align: "middle"
-            },      animation: {
-                animateScale: true,
-                animateRotate: true,
-                onComplete: function() {
-                    var canvasBounds = canvas.getBoundingClientRect();
-                    dataLabel.innerHTML = ' Utilized  :  95 %';
-                    var dataLabelBounds = dataLabel.getBoundingClientRect();
-                    dataLabel.style.top = (canvasBounds.top + (canvasBounds.height / 2) - (dataLabelBounds.height / 2)) + 'px';
-                    dataLabel.style.left = (canvasBounds.left + (canvasBounds.width / 2) - (dataLabelBounds.width / 2)) + 'px';
-                }
-            },
+            }
         }
     };
     var myChart = new Chart(
