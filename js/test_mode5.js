@@ -79,7 +79,7 @@ $(document).ready(function () {
 
                 let id = testWords[testCount]
                 let word = getWordInfo(id)[0].TheWord
-                correct.push({id:id,word:word})
+                wrong.push({id:id,word:word})
                 $('#span_correct_or_wrong').css('color', '#E25A53')
                 $('#span_correct_or_wrong').text('答錯了')
 
