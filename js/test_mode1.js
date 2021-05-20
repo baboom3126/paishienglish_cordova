@@ -36,7 +36,7 @@ let answer_click = function (status) {
         test_result_mode1.bad = bad
         localStorage.setItem("test_result_mode1",JSON.stringify(test_result_mode1))
         $('#div_answers').css('margin-top','15%')
-        $('#div_answers').html('<a href="./test_result_mode123.html?mode=1" class="btn confirm_button waves-effect">結束測驗</a>')
+        $('#div_answers').html('<a href="./test_result_mode.html?mode=1" class="btn confirm_button waves-effect">結束測驗</a>')
         console.log('done')
     }else{
         currentWord = testWords[testCount]

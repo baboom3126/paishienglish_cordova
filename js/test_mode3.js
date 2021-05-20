@@ -37,7 +37,7 @@ let answer_click = function (status) {
         test_result_mode3.bad = bad
         localStorage.setItem("test_result_mode3", JSON.stringify(test_result_mode3))
         $('#div_answers').css('margin-top', '15%')
-        $('#div_answers').html('<a href="./test_result_mode123.html?mode=3" class="btn confirm_button waves-effect">結束測驗</a>')
+        $('#div_answers').html('<a href="./test_result_mode.html?mode=3" class="btn confirm_button waves-effect">結束測驗</a>')
 
         console.log('done')
     } else {

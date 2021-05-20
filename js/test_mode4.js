@@ -88,8 +88,9 @@ $(document).ready(function () {
 
             if (answer == getWordInfo(testWords[testCount])[0].TheWord.toLowerCase()) {
 
-
-                correct.push(testWords[testCount])
+                let id = testWords[testCount]
+                let word = getWordInfo(id)[0].TheWord
+                correct.push({id:id,word:word})
                 $('#span_correct_or_wrong').css('color','#7FA8E6')
                 $('#span_correct_or_wrong').text('答對了')
 
@@ -98,8 +99,10 @@ $(document).ready(function () {
 
 
             } else {
+                let id = testWords[testCount]
+                let word = getWordInfo(id)[0].TheWord
 
-                wrong.push(testWords[testCount])
+                wrong.push({id:id,word:word})
                 $('#span_correct_or_wrong').css('color','#E25A53')
                 $('#span_correct_or_wrong').text('答錯了')
 
@@ -120,6 +123,8 @@ $(document).ready(function () {
 
         if(testCount == testWords.length-1){
             $('#btn_nextWord').text('測驗結束')
+            $('#btn_nextWord').attr('onclick',`javascript:location.href='./test_result_mode.html?mode=4'`)
+
             console.log('done')
             let test_result = {}
             test_result.correct = correct

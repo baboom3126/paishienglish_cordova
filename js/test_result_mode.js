@@ -102,44 +102,61 @@ var close_word = function (that) {
 
 
 
-var show_word_socre_list = function () {
+let show_word_socre_list = function () {
 
-    var urlParam = location.href.split('?')[1]
+    let urlParam = location.href.split('?')[1]
     let mode = urlParam.split('mode=')[1]
 
 
     if (mode === '1') {
 
-        var test_result_mode1 = localStorage.getItem('test_result_mode1')
+        let test_result_mode1 = localStorage.getItem('test_result_mode1')
         if(test_result_mode1==null){
             swal.fire('沒有成績')
         }
         let JSON_test_result_data = JSON.parse(test_result_mode1)
-        show_word_socre_list_for_every_mode(JSON_test_result_data)
+        show_word_socre_list_for_123_mode(JSON_test_result_data)
 
     } else if (mode === '2') {
-        var test_result_mode2 = localStorage.getItem('test_result_mode2')
+        let test_result_mode2 = localStorage.getItem('test_result_mode2')
         if(test_result_mode2==null){
             swal.fire('沒有成績')
         }
         let JSON_test_result_data = JSON.parse(test_result_mode2)
-        show_word_socre_list_for_every_mode(JSON_test_result_data)
+        show_word_socre_list_for_123_mode(JSON_test_result_data)
 
 
     } else if (mode === '3') {
-        var test_result_mode3 = localStorage.getItem('test_result_mode3')
+        let test_result_mode3 = localStorage.getItem('test_result_mode3')
         if(test_result_mode3==null){
             swal.fire('沒有成績')
         }
         let JSON_test_result_data = JSON.parse(test_result_mode3)
-        show_word_socre_list_for_every_mode(JSON_test_result_data)
+        show_word_socre_list_for_123_mode(JSON_test_result_data)
 
+    } else if (mode ==='4'){
+        let test_result_mode4 = localStorage.getItem('test_result_mode4')
+        if(test_result_mode4==null){
+            swal.fire('沒有成績')
+        }
+        let JSON_test_result_data = JSON.parse(test_result_mode4)
+        show_word_socre_list_for_45_mode(JSON_test_result_data)
+    } else if(mode ==='5'){
+        let test_result_mode5 = localStorage.getItem('test_result_mode5')
+        if(test_result_mode5==null){
+            swal.fire('沒有成績')
+        }
+        let JSON_test_result_data = JSON.parse(test_result_mode5)
+        show_word_socre_list_for_45_mode(JSON_test_result_data)
     }
 
 
 }
 
-var show_word_socre_list_for_every_mode = function (data) {
+let show_word_socre_list_for_123_mode = function (data) {
+
+
+    Chart.defaults.plugins.legend.position="right"
 
     let appendHTMLforGood = ``
     let appendHTMLforNormal = ``
@@ -150,7 +167,7 @@ var show_word_socre_list_for_every_mode = function (data) {
     let badCount = parseInt(data.bad.length)
 
     let scoreNumerator = goodCount
-    let socredenominator = parseInt(data.good.length)+normalCount+badCount
+    let socreDenominator = parseInt(data.good.length)+normalCount+badCount
 
     ///// pie chart
     const pieData = {
@@ -173,6 +190,13 @@ var show_word_socre_list_for_every_mode = function (data) {
     const config = {
         type: 'pie',
         data: pieData,
+        options: {
+            responsive: true,
+            legend: {
+                position: "right",
+                align: "middle"
+            }
+        }
     };
     var myChart = new Chart(
         document.getElementById('myChart'),
@@ -183,7 +207,7 @@ var show_word_socre_list_for_every_mode = function (data) {
     ///
 
 
-    $('#div_score').text('得分：'+scoreNumerator+'/'+socredenominator)
+    $('#div_score').text('得分：'+scoreNumerator+'/'+socreDenominator)
 
     for (let i of data.good) {
         appendHTMLforGood += `<div class="row div_word_row" onclick="javascript:show_word('${i.id}')">${i.word}</div>`
@@ -199,4 +223,85 @@ var show_word_socre_list_for_every_mode = function (data) {
     $('#div_tab_for_good').html(appendHTMLforGood)
     $('#div_tab_for_normal').html(appendHTMLforNormal)
     $('#div_tab_for_bad').html(appendHTMLforBad)
+}
+
+
+let show_word_socre_list_for_45_mode = function (data) {
+
+    Chart.defaults.plugins.legend.position="right"
+
+
+    $('#li_3').css('display','none')
+    $('#a_in_li_1').text('正確')
+    $('#a_in_li_2').text('錯誤')
+
+
+    let appendHtmlForCorrect = ''
+    let appendHtmlForWrong = ''
+
+    let correctCount = data.correct.length
+    let wrongCount = data.wrong.length
+    let socreDenominator = parseInt(correctCount)+parseInt(wrongCount)
+
+    ///// pie chart
+    const pieData = {
+        labels: [
+            '正確',
+            '錯誤'
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [correctCount, wrongCount],
+            backgroundColor: [
+                '#7FA8E6',
+                '#e1f2ff'
+            ],
+            hoverOffset: 4
+        }]
+    };
+    const config = {
+        type: 'doughnut',
+        data: pieData,
+        options: {
+            responsive: true,
+            legend: {
+                position: "right",
+                align: "middle"
+            },      animation: {
+                animateScale: true,
+                animateRotate: true,
+                onComplete: function() {
+                    var canvasBounds = canvas.getBoundingClientRect();
+                    dataLabel.innerHTML = ' Utilized  :  95 %';
+                    var dataLabelBounds = dataLabel.getBoundingClientRect();
+                    dataLabel.style.top = (canvasBounds.top + (canvasBounds.height / 2) - (dataLabelBounds.height / 2)) + 'px';
+                    dataLabel.style.left = (canvasBounds.left + (canvasBounds.width / 2) - (dataLabelBounds.width / 2)) + 'px';
+                }
+            },
+        }
+    };
+    var myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+
+
+    ///
+    $('#div_score').text(''+correctCount+'/'+socreDenominator)
+    $('#div_score').css('color','#707070')
+
+
+
+    for(let i of data.correct){
+        appendHtmlForCorrect += `<div class="row div_word_row" onclick="javascript:show_word('${i.id}')">${i.word}</div>`
+
+    }
+
+    for(let i of data.wrong){
+        appendHtmlForWrong += `<div class="row div_word_row" onclick="javascript:show_word('${i.id}')">${i.word}</div>`
+
+    }
+    $('#div_tab_for_good').html(appendHtmlForCorrect)
+    $('#div_tab_for_normal').html(appendHtmlForWrong)
+
 }

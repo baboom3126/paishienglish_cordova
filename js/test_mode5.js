@@ -96,6 +96,8 @@ $(document).ready(function () {
 
         if (testCount == testWords.length - 1) {
             $('#btn_nextWord').text('測驗結束')
+            $('#btn_nextWord').attr('onclick',`javascript:location.href='./test_result_mode.html?mode=5'`)
+
             console.log('done')
             let test_result = {}
             test_result.correct = correct
